@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Sumith – Cybersecurity Builder & Entrepreneur</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    }
+    body {
+      background: #050816;
+      color: #e5e7eb;
+      line-height: 1.6;
+    }
+    a {
+      color: #38bdf8;
+      text-decoration: none;
+    }
+    a:hover {
+      text-decoration: underline;
+    }
+    header {
+      padding: 20px;
+      border-bottom: 1px solid #1f2933;
+      background: rgba(15, 23, 42, 0.95);
+      position: sticky;
+      top: 0;
+      backdrop-filter: blur(10px);
+      z-index: 10;
+    }
+    .container {
+      max-width: 960px;
+      margin: 0 auto;
+      padding: 20px;
+    }
+    .nav-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+    .nav-title {
+      font-size: 1.1rem;
+      font-weight: 600;
+      letter-spacing: 0.03em;
+    }
+    .tagline {
+      font-size: 0.85rem;
+      color: #9ca3af;
+    }
+    .nav-links {
+      display: flex;
+      gap: 12px;
+      font-size: 0.85rem;
+    }
+    .nav-links a {
+      opacity: 0.8;
+    }
+    .nav-links a:hover {
+      opacity: 1;
+    }
+    .hero {
+      padding: 40px 0 20px 0;
+    }
+    .hero h1 {
+      font-size: 2.2rem;
+      margin-bottom: 10px;
+    }
+    .hero h1 span {
+      color: #38bdf8;
+    }
+    .hero p {
+      color: #9ca3af;
+      max-width: 640px;
+      margin-bottom: 16px;
+    }
+    .pill {
+      display: inline-block;
+      padding: 4px 10px;
+      border-radius: 999px;
+      background: rgba(56, 189, 248, 0.1);
+      color: #7dd3fc;
+      font-size: 0.8rem;
+      margin-right: 6px;
+      margin-bottom: 6px;
+    }
+    section {
+      margin-top: 32px;
+      padding-top: 16px;
+      border-top: 1px solid #111827;
+    }
+    section h2 {
+      font-size: 1.3rem;
+      margin-bottom: 12px;
+      color: #f9fafb;
+    }
+    ul {
+      margin-left: 16px;
+      margin-top: 6px;
+    }
+    li {
+      margin-bottom: 4px;
+    }
+    .card-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 16px;
+      margin-top: 10px;
+    }
+    .card {
+      background: #020617;
+      border-radius: 10px;
+      padding: 14px 16px;
+      border: 1px solid #1f2937;
+    }
+    .card h3 {
+      font-size: 1rem;
+      margin-bottom: 6px;
+      color: #e5e7eb;
+    }
+    .card p {
+      font-size: 0.9rem;
+      color: #9ca3af;
+      margin-bottom: 6px;
+    }
+    .meta {
+      font-size: 0.8rem;
+      color: #6b7280;
+    }
+    .contact-box {
+      background: #020617;
+      border-radius: 10px;
+      padding: 16px;
+      border: 1px solid #1f2937;
+    }
+    footer {
+      margin-top: 40px;
+      padding: 16px 0;
+      border-top: 1px solid #111827;
+      font-size: 0.8rem;
+      color: #6b7280;
+      text-align: center;
+    }
+    @media (max-width: 600px) {
+      .hero h1 {
+        font-size: 1.8rem;
+      }
+      .nav-row {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="container nav-row">
+      <div>
+        <div class="nav-title">Sumith • Cybersecurity Builder</div>
+        <div class="tagline">Building my own tools, apps & security products.</div>
+      </div>
+      <nav class="nav-links">
+        <a href="#labs">Labs & Tools</a>
+        <a href="#problems">Problems</a>
+        <a href="#roadmap">2026 Roadmap</a>
+        <a href="#contact">Contact</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="container">
+    <section class="hero">
+      <h1>I'm <span>Sumith</span> — learning, hacking & building my own empire.</h1>
+      <p>I’m an aspiring cybersecurity entrepreneur from India. I focus on solving security problems by building tools, checklists and apps.</p>
+      <p>This website is my personal lab where I ship ideas, break things, fix them and document my progress.</p>
+      <div>
+        <span class="pill">Cybersecurity Builder</span>
+        <span class="pill">Web App Security</span>
+        <span class="pill">OSINT & Automation</span>
+        <span class="pill">Indie Hacker Mindset</span>
+      </div>
+    </section>
+
+    <section id="problems">
+      <h2>Problems I Want to Solve</h2>
+      <ul>
+        <li>Small businesses lacking basic security practices.</li>
+        <li>Developers pushing insecure apps with common vulnerabilities.</li>
+        <li>People unaware of what public data exists about them.</li>
+        <li>Security learning resources being too theoretical.</li>
+      </ul>
+      <p class="meta">My plan: build tools, guides and services that solve these problems one by one.</p>
+    </section>
+
+    <section id="labs">
+      <h2>Labs & Tools</h2>
+      <p class="meta">Mini apps, scripts and products I’m building. Some will fail, some will work.</p>
+
+      <div class="card-grid">
+        <div class="card">
+          <h3>SME Security Starter Pack</h3>
+          <p>A basic security hardening checklist and quick-win guide for small businesses.</p>
+          <p class="meta">Status: Idea</p>
+        </div>
+
+        <div class="card">
+          <h3>OSINT Snapshot Tool</h3>
+          <p>A script that provides a quick visibility report on public data for usernames, emails or domains.</p>
+          <p class="meta">Status: Planned</p>
+        </div>
+
+        <div class="card">
+          <h3>Web App Pentest Reports</h3>
+          <p>Sample penetration test reports for understanding real-world vulnerabilities.</p>
+          <p class="meta">Status: Planned</p>
+        </div>
+      </div>
+    </section>
+
+    <section id="roadmap">
+      <h2>2026 Roadmap</h2>
+      <ul>
+        <li>Build 2–3 real tools or apps.</li>
+        <li>Document journey on GitHub and LinkedIn.</li>
+        <li>Help small businesses with micro-security assessments.</li>
+        <li>Turn one tool into a paid micro-product.</li>
+      </ul>
+      <p class="meta">Theme: Create > Consume. Build in public.</p>
+    </section>
+
+    <section id="skills">
+      <h2>Skills I’m Leveling Up</h2>
+      <ul>
+        <li>Web app security</li>
+        <li>Linux & security tools</li>
+        <li>Python automation</li>
+        <li>Git & GitHub</li>
+        <li>Entrepreneurial problem solving</li>
+      </ul>
+    </section>
+
+    <section id="contact">
+      <h2>Contact & Links</h2>
+      <div class="contact-box">
+        <p>GitHub: <a href="https://github.com/sumithchandra36" target="_blank">github.com/sumithchandra36</a></p>
+        <p class="meta">This site will soon link to my tools, scripts and reports as I build them.</p>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    Built in public • Hosted on GitHub Pages
+  </footer>
+</body>
+</html>
