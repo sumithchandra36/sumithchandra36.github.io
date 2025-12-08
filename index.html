@@ -2,259 +2,960 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <title>Sumith – Cybersecurity Builder & Entrepreneur</title>
+  <title>Sumith Labs – Cybersecurity Tools & Apps</title>
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <style>
+    :root {
+      --radius-lg: 18px;
+      --radius-md: 12px;
+      --radius-pill: 999px;
+      --shadow-soft: 0 18px 40px rgba(15, 23, 42, 0.55);
+      --transition-fast: 0.18s ease-out;
+    }
+
+    :root[data-theme="dark"] {
+      --bg: #020617;
+      --bg-elevated: #020617;
+      --bg-card: #020617;
+      --bg-card-soft: #020617;
+      --border-subtle: #1e293b;
+      --border-strong: #334155;
+      --text-main: #e5e7eb;
+      --text-muted: #94a3b8;
+      --accent: #38bdf8;
+      --accent-soft: rgba(56, 189, 248, 0.14);
+      --accent-strong: #0ea5e9;
+      --chip-bg: rgba(15, 23, 42, 0.9);
+      --nav-bg: rgba(2, 6, 23, 0.92);
+      --hero-gradient: radial-gradient(circle at top, #0b1120 0, #020617 55%);
+    }
+
+    :root[data-theme="light"] {
+      --bg: #f9fafb;
+      --bg-elevated: #f3f4f6;
+      --bg-card: #ffffff;
+      --bg-card-soft: #f9fafb;
+      --border-subtle: #e5e7eb;
+      --border-strong: #cbd5f5;
+      --text-main: #0f172a;
+      --text-muted: #6b7280;
+      --accent: #2563eb;
+      --accent-soft: rgba(37, 99, 235, 0.1);
+      --accent-strong: #1d4ed8;
+      --chip-bg: #e5edff;
+      --nav-bg: rgba(249, 250, 251, 0.96);
+      --hero-gradient: radial-gradient(circle at top, #e5edff 0, #f9fafb 55%);
+    }
+
     * {
       margin: 0;
       padding: 0;
       box-sizing: border-box;
       font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
     }
+
     body {
-      background: #050816;
-      color: #e5e7eb;
+      min-height: 100vh;
+      background: var(--hero-gradient);
+      color: var(--text-main);
       line-height: 1.6;
+      transition: background 0.25s ease-out, color 0.25s ease-out;
     }
+
     a {
-      color: #38bdf8;
+      color: var(--accent);
       text-decoration: none;
+      transition: color var(--transition-fast), opacity var(--transition-fast);
     }
+
     a:hover {
-      text-decoration: underline;
+      opacity: 0.9;
     }
+
+    .shell {
+      max-width: 1120px;
+      margin: 0 auto;
+      padding: 16px 16px 32px;
+    }
+
     header {
-      padding: 20px;
-      border-bottom: 1px solid #1f2933;
-      background: rgba(15, 23, 42, 0.95);
       position: sticky;
       top: 0;
-      backdrop-filter: blur(10px);
-      z-index: 10;
+      z-index: 30;
+      backdrop-filter: blur(18px);
+      background: var(--nav-bg);
+      border-bottom: 1px solid var(--border-subtle);
     }
-    .container {
-      max-width: 960px;
+
+    .nav-inner {
+      max-width: 1120px;
       margin: 0 auto;
-      padding: 20px;
-    }
-    .nav-row {
+      padding: 10px 16px;
       display: flex;
+      align-items: center;
       justify-content: space-between;
+      gap: 16px;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .brand-logo {
+      width: 32px;
+      height: 32px;
+      border-radius: 12px;
+      background: radial-gradient(circle at 30% 15%, #38bdf8, #0f172a);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.9rem;
+      color: #e5e7eb;
+      box-shadow: 0 14px 34px rgba(56, 189, 248, 0.6);
+    }
+
+    .brand-text-main {
+      font-size: 1rem;
+      font-weight: 600;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+
+    .brand-text-sub {
+      font-size: 0.78rem;
+      color: var(--text-muted);
+    }
+
+    .nav-right {
+      display: flex;
       align-items: center;
       gap: 12px;
-      flex-wrap: wrap;
     }
-    .nav-title {
-      font-size: 1.1rem;
-      font-weight: 600;
-      letter-spacing: 0.03em;
-    }
-    .tagline {
-      font-size: 0.85rem;
-      color: #9ca3af;
-    }
+
     .nav-links {
       display: flex;
       gap: 12px;
-      font-size: 0.85rem;
+      font-size: 0.82rem;
     }
+
     .nav-links a {
-      opacity: 0.8;
+      color: var(--text-muted);
+      padding: 6px 0;
     }
+
     .nav-links a:hover {
-      opacity: 1;
+      color: var(--accent);
     }
+
+    .theme-toggle {
+      border-radius: var(--radius-pill);
+      padding: 4px 10px;
+      border: 1px solid var(--border-subtle);
+      background: var(--bg-card-soft);
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 0.8rem;
+      cursor: pointer;
+      transition: background var(--transition-fast), border-color var(--transition-fast), transform 0.1s;
+    }
+
+    .theme-toggle span {
+      font-size: 1rem;
+    }
+
+    .theme-toggle:active {
+      transform: scale(0.97);
+    }
+
+    main {
+      margin-top: 26px;
+    }
+
     .hero {
-      padding: 40px 0 20px 0;
+      display: grid;
+      grid-template-columns: minmax(0, 3.1fr) minmax(0, 2.2fr);
+      gap: 26px;
+      align-items: center;
+      margin-bottom: 32px;
     }
-    .hero h1 {
-      font-size: 2.2rem;
+
+    .hero-eyebrow {
+      font-size: 0.78rem;
+      text-transform: uppercase;
+      letter-spacing: 0.18em;
+      color: var(--accent);
+      margin-bottom: 8px;
+    }
+
+    .hero-title {
+      font-size: clamp(2.2rem, 4vw, 2.8rem);
+      font-weight: 700;
       margin-bottom: 10px;
     }
-    .hero h1 span {
-      color: #38bdf8;
+
+    .hero-title span {
+      color: var(--accent-strong);
     }
-    .hero p {
-      color: #9ca3af;
-      max-width: 640px;
+
+    .hero-sub {
+      font-size: 0.95rem;
+      color: var(--text-muted);
+      max-width: 460px;
       margin-bottom: 16px;
     }
-    .pill {
-      display: inline-block;
+
+    .hero-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-bottom: 16px;
+    }
+
+    .chip {
       padding: 4px 10px;
-      border-radius: 999px;
-      background: rgba(56, 189, 248, 0.1);
-      color: #7dd3fc;
+      border-radius: var(--radius-pill);
       font-size: 0.8rem;
-      margin-right: 6px;
-      margin-bottom: 6px;
+      background: var(--accent-soft);
+      color: var(--accent-strong);
+      border: 1px solid rgba(148, 163, 184, 0.35);
     }
+
+    .hero-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-bottom: 8px;
+    }
+
+    .btn-primary {
+      border-radius: var(--radius-pill);
+      padding: 8px 18px;
+      border: none;
+      background: linear-gradient(135deg, var(--accent), var(--accent-strong));
+      color: #0b1120;
+      font-size: 0.86rem;
+      font-weight: 600;
+      cursor: pointer;
+      box-shadow: var(--shadow-soft);
+      transition: transform var(--transition-fast), box-shadow var(--transition-fast), opacity var(--transition-fast);
+    }
+
+    .btn-primary:hover {
+      transform: translateY(-1px);
+      opacity: 0.96;
+    }
+
+    .btn-ghost {
+      border-radius: var(--radius-pill);
+      padding: 7px 16px;
+      border: 1px solid var(--border-subtle);
+      background: var(--bg-card-soft);
+      color: var(--text-muted);
+      font-size: 0.84rem;
+      cursor: pointer;
+      transition: background var(--transition-fast), border-color var(--transition-fast), color var(--transition-fast);
+    }
+
+    .btn-ghost:hover {
+      border-color: var(--accent);
+      color: var(--accent-strong);
+    }
+
+    .hero-status {
+      font-size: 0.8rem;
+      color: var(--text-muted);
+    }
+
+    .hero-panel {
+      border-radius: var(--radius-lg);
+      padding: 16px 16px 14px;
+      background: radial-gradient(circle at top left, rgba(56, 189, 248, 0.12), rgba(15, 23, 42, 0.96));
+      border: 1px solid var(--border-strong);
+      box-shadow: var(--shadow-soft);
+    }
+
+    :root[data-theme="light"] .hero-panel {
+      background: radial-gradient(circle at top left, rgba(37, 99, 235, 0.12), #ffffff);
+    }
+
+    .hero-panel-head {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 10px;
+      font-size: 0.8rem;
+      color: var(--text-muted);
+    }
+
+    .hero-dots {
+      display: flex;
+      gap: 5px;
+    }
+
+    .hero-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 999px;
+    }
+
+    .hero-dot:nth-child(1) {
+      background: #f97316;
+    }
+
+    .hero-dot:nth-child(2) {
+      background: #22c55e;
+    }
+
+    .hero-dot:nth-child(3) {
+      background: #38bdf8;
+    }
+
+    .hero-app-list {
+      display: flex;
+      flex-direction: column;
+      gap: 9px;
+      font-size: 0.8rem;
+    }
+
+    .hero-app-item {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      gap: 8px;
+      padding: 8px 10px;
+      border-radius: 12px;
+      background: rgba(15, 23, 42, 0.85);
+      border: 1px solid rgba(30, 64, 175, 0.8);
+    }
+
+    :root[data-theme="light"] .hero-app-item {
+      background: #eff6ff;
+    }
+
+    .hero-app-name {
+      font-weight: 500;
+      margin-bottom: 2px;
+    }
+
+    .hero-app-desc {
+      color: var(--text-muted);
+    }
+
+    .hero-app-pill {
+      font-size: 0.7rem;
+      padding: 3px 7px;
+      border-radius: var(--radius-pill);
+      background: rgba(34, 197, 94, 0.14);
+      color: #4ade80;
+      white-space: nowrap;
+    }
+
+    .hero-app-pill.soft {
+      background: rgba(148, 163, 184, 0.12);
+      color: var(--text-muted);
+    }
+
+    .hero-mini {
+      margin-top: 8px;
+      font-size: 0.78rem;
+      color: var(--text-muted);
+    }
+
     section {
-      margin-top: 32px;
-      padding-top: 16px;
-      border-top: 1px solid #111827;
+      margin-bottom: 30px;
     }
-    section h2 {
-      font-size: 1.3rem;
+
+    .section-head {
+      display: flex;
+      align-items: baseline;
+      justify-content: space-between;
+      gap: 10px;
       margin-bottom: 12px;
-      color: #f9fafb;
     }
-    ul {
-      margin-left: 16px;
+
+    .section-title {
+      font-size: 1.12rem;
+      font-weight: 600;
+    }
+
+    .section-sub {
+      font-size: 0.8rem;
+      color: var(--text-muted);
+    }
+
+    .pill-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-bottom: 10px;
+      font-size: 0.8rem;
+    }
+
+    .pill-outline {
+      padding: 4px 9px;
+      border-radius: var(--radius-pill);
+      border: 1px dashed var(--border-subtle);
+      color: var(--text-muted);
+    }
+
+    .apps-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      gap: 16px;
+    }
+
+    .app-card {
+      border-radius: var(--radius-md);
+      background: var(--bg-card);
+      border: 1px solid var(--border-subtle);
+      padding: 14px 14px 12px;
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      box-shadow: 0 14px 28px rgba(15, 23, 42, 0.32);
+      transition: transform var(--transition-fast), box-shadow var(--transition-fast), border-color var(--transition-fast), background var(--transition-fast);
+    }
+
+    :root[data-theme="light"] .app-card {
+      box-shadow: 0 12px 30px rgba(15, 23, 42, 0.12);
+    }
+
+    .app-card:hover {
+      transform: translateY(-2px);
+      border-color: var(--accent-soft);
+      box-shadow: 0 18px 40px rgba(15, 23, 42, 0.65);
+    }
+
+    .app-header-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 6px;
+      font-size: 0.78rem;
+      color: var(--text-muted);
+    }
+
+    .badge-status {
+      padding: 3px 8px;
+      border-radius: var(--radius-pill);
+      font-size: 0.7rem;
+      background: rgba(34, 197, 94, 0.13);
+      color: #4ade80;
+    }
+
+    .badge-soon {
+      background: rgba(148, 163, 184, 0.16);
+      color: var(--text-muted);
+    }
+
+    .badge-idea {
+      background: rgba(56, 189, 248, 0.12);
+      color: var(--accent-strong);
+    }
+
+    .app-name {
+      font-size: 0.9rem;
+      font-weight: 600;
+    }
+
+    .app-desc {
+      font-size: 0.8rem;
+      color: var(--text-muted);
+    }
+
+    .app-footer-row {
       margin-top: 6px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 6px;
     }
-    li {
-      margin-bottom: 4px;
+
+    .app-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 4px;
+      font-size: 0.7rem;
     }
-    .card-grid {
+
+    .app-tag {
+      padding: 2px 7px;
+      border-radius: var(--radius-pill);
+      background: var(--chip-bg);
+      border: 1px solid var(--border-subtle);
+    }
+
+    :root[data-theme="light"] .app-tag {
+      background: #eef2ff;
+    }
+
+    .app-btn {
+      font-size: 0.75rem;
+      padding: 5px 10px;
+      border-radius: var(--radius-pill);
+      border: none;
+      background: var(--accent-soft);
+      color: var(--accent-strong);
+      cursor: default;
+      white-space: nowrap;
+    }
+
+    .info-grid {
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
       gap: 16px;
-      margin-top: 10px;
     }
-    .card {
-      background: #020617;
-      border-radius: 10px;
-      padding: 14px 16px;
-      border: 1px solid #1f2937;
+
+    .info-card {
+      border-radius: var(--radius-md);
+      background: var(--bg-card);
+      border: 1px solid var(--border-subtle);
+      padding: 14px 14px 12px;
+      font-size: 0.84rem;
+      box-shadow: 0 12px 28px rgba(15, 23, 42, 0.4);
     }
-    .card h3 {
-      font-size: 1rem;
+
+    .info-title {
+      font-weight: 600;
       margin-bottom: 6px;
+    }
+
+    .info-list {
+      margin-left: 14px;
+      margin-top: 4px;
+      font-size: 0.8rem;
+      color: var(--text-muted);
+    }
+
+    .info-list li {
+      margin-bottom: 3px;
+    }
+
+    .info-strip {
+      margin-top: 8px;
+      padding: 7px 9px;
+      border-radius: 10px;
+      font-size: 0.78rem;
+      background: var(--accent-soft);
+      color: var(--accent-strong);
+    }
+
+    .links-card {
+      margin-top: 10px;
+      border-radius: var(--radius-lg);
+      background: radial-gradient(circle at top left, rgba(56, 189, 248, 0.18), rgba(15, 23, 42, 0.98));
+      border: 1px solid rgba(148, 163, 184, 0.7);
+      padding: 16px 16px 14px;
+      display: grid;
+      grid-template-columns: minmax(0, 3fr) minmax(0, 2.2fr);
+      gap: 16px;
+      align-items: center;
+      box-shadow: var(--shadow-soft);
+    }
+
+    :root[data-theme="light"] .links-card {
+      background: radial-gradient(circle at top left, rgba(37, 99, 235, 0.25), #111827);
       color: #e5e7eb;
     }
-    .card p {
-      font-size: 0.9rem;
-      color: #9ca3af;
+
+    .links-main-title {
+      font-size: 1rem;
+      font-weight: 600;
       margin-bottom: 6px;
     }
-    .meta {
-      font-size: 0.8rem;
-      color: #6b7280;
+
+    .links-main-sub {
+      font-size: 0.82rem;
+      color: #cbd5f5;
+      max-width: 360px;
     }
-    .contact-box {
-      background: #020617;
-      border-radius: 10px;
-      padding: 16px;
-      border: 1px solid #1f2937;
+
+    :root[data-theme="light"] .links-main-sub {
+      color: #cbd5f5;
     }
+
+    .links-list {
+      font-size: 0.84rem;
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+
+    .link-row {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .link-label {
+      font-size: 0.78rem;
+      opacity: 0.8;
+      min-width: 64px;
+    }
+
+    .link-anchor {
+      font-size: 0.84rem;
+      word-break: break-all;
+    }
+
     footer {
-      margin-top: 40px;
-      padding: 16px 0;
-      border-top: 1px solid #111827;
-      font-size: 0.8rem;
-      color: #6b7280;
+      margin-top: 16px;
+      padding-top: 10px;
+      font-size: 0.75rem;
+      color: var(--text-muted);
       text-align: center;
     }
-    @media (max-width: 600px) {
-      .hero h1 {
-        font-size: 1.8rem;
+
+    @media (max-width: 900px) {
+      .hero {
+        grid-template-columns: minmax(0, 1fr);
       }
-      .nav-row {
+      .hero-panel {
+        order: -1;
+      }
+    }
+
+    @media (max-width: 720px) {
+      .nav-inner {
         flex-direction: column;
         align-items: flex-start;
+      }
+      .nav-right {
+        width: 100%;
+        justify-content: space-between;
+      }
+      .nav-links {
+        display: none;
+      }
+      .shell {
+        padding-inline: 14px;
+      }
+    }
+
+    @media (max-width: 520px) {
+      .links-card {
+        grid-template-columns: minmax(0, 1fr);
       }
     }
   </style>
 </head>
 <body>
   <header>
-    <div class="container nav-row">
-      <div>
-        <div class="nav-title">Sumith • Cybersecurity Builder</div>
-        <div class="tagline">Building my own tools, apps & security products.</div>
+    <div class="nav-inner">
+      <div class="brand">
+        <div class="brand-logo">SR</div>
+        <div>
+          <div class="brand-text-main">Sumith Labs</div>
+          <div class="brand-text-sub">Indie cybersecurity tools • Built in public</div>
+        </div>
       </div>
-      <nav class="nav-links">
-        <a href="#labs">Labs & Tools</a>
-        <a href="#problems">Problems</a>
-        <a href="#roadmap">2026 Roadmap</a>
-        <a href="#contact">Contact</a>
-      </nav>
+      <div class="nav-right">
+        <div class="nav-links">
+          <a href="#apps">Apps</a>
+          <a href="#stack">Stack</a>
+          <a href="#about">About</a>
+          <a href="#links">Links</a>
+        </div>
+        <button id="theme-toggle" class="theme-toggle" type="button">
+          <span id="theme-emoji">🌙</span>
+          <span id="theme-label">Dark</span>
+        </button>
+      </div>
     </div>
   </header>
 
-  <main class="container">
-    <section class="hero">
-      <h1>I'm <span>Sumith</span> — learning, hacking & building my own empire.</h1>
-      <p>I’m an aspiring cybersecurity entrepreneur from India. I focus on solving security problems by building tools, checklists and apps.</p>
-      <p>This website is my personal lab where I ship ideas, break things, fix them and document my progress.</p>
-      <div>
-        <span class="pill">Cybersecurity Builder</span>
-        <span class="pill">Web App Security</span>
-        <span class="pill">OSINT & Automation</span>
-        <span class="pill">Indie Hacker Mindset</span>
-      </div>
-    </section>
+  <div class="shell">
+    <main>
+      <section class="hero">
+        <div>
+          <div class="hero-eyebrow">Security startup playground</div>
+          <h1 class="hero-title">Shipping small <span>cybersecurity tools</span> from my laptop.</h1>
+          <p class="hero-sub">
+            I’m Sumith, an early-stage cybersecurity builder from India. This site is my mini app
+            hub where I launch tools, experiments and micro-products for real people and small businesses.
+          </p>
+          <div class="hero-tags">
+            <div class="chip">Web app security</div>
+            <div class="chip">OSINT & automation</div>
+            <div class="chip">Solo founder energy</div>
+            <div class="chip">Built in public</div>
+          </div>
+          <div class="hero-actions">
+            <button class="btn-primary" type="button" onclick="scrollToSection('apps')">
+              Browse tools
+            </button>
+            <button class="btn-ghost" type="button" onclick="scrollToSection('links')">
+              Connect with me
+            </button>
+          </div>
+          <div class="hero-status">
+            Currently: building first public tools and demo reports for the 2026 launch.
+          </div>
+        </div>
+        <div class="hero-panel">
+          <div class="hero-panel-head">
+            <div>Live from Sumith Security Labs</div>
+            <div class="hero-dots">
+              <div class="hero-dot"></div>
+              <div class="hero-dot"></div>
+              <div class="hero-dot"></div>
+            </div>
+          </div>
+          <div class="hero-app-list">
+            <div class="hero-app-item">
+              <div>
+                <div class="hero-app-name">OSINT Snapshot</div>
+                <div class="hero-app-desc">Quick public footprint for usernames, emails and domains.</div>
+              </div>
+              <div class="hero-app-pill soft">In progress</div>
+            </div>
+            <div class="hero-app-item">
+              <div>
+                <div class="hero-app-name">SME Security Starter Pack</div>
+                <div class="hero-app-desc">Checklists and basics for small business security.</div>
+              </div>
+              <div class="hero-app-pill">Beta soon</div>
+            </div>
+            <div class="hero-app-item">
+              <div>
+                <div class="hero-app-name">Web App Pentest Demos</div>
+                <div class="hero-app-desc">Client-style reports for demo applications.</div>
+              </div>
+              <div class="hero-app-pill soft">Planning</div>
+            </div>
+          </div>
+          <div class="hero-mini">
+            As tools go live, this panel will link to real apps, demos or GitHub repositories.
+          </div>
+        </div>
+      </section>
 
-    <section id="problems">
-      <h2>Problems I Want to Solve</h2>
-      <ul>
-        <li>Small businesses lacking basic security practices.</li>
-        <li>Developers pushing insecure apps with common vulnerabilities.</li>
-        <li>People unaware of what public data exists about them.</li>
-        <li>Security learning resources being too theoretical.</li>
-      </ul>
-      <p class="meta">My plan: build tools, guides and services that solve these problems one by one.</p>
-    </section>
-
-    <section id="labs">
-      <h2>Labs & Tools</h2>
-      <p class="meta">Mini apps, scripts and products I’m building. Some will fail, some will work.</p>
-
-      <div class="card-grid">
-        <div class="card">
-          <h3>SME Security Starter Pack</h3>
-          <p>A basic security hardening checklist and quick-win guide for small businesses.</p>
-          <p class="meta">Status: Idea</p>
+      <section id="apps">
+        <div class="section-head">
+          <div class="section-title">Apps & tools</div>
+          <div class="section-sub">A focused lab of cybersecurity utilities and learning products.</div>
         </div>
 
-        <div class="card">
-          <h3>OSINT Snapshot Tool</h3>
-          <p>A script that provides a quick visibility report on public data for usernames, emails or domains.</p>
-          <p class="meta">Status: Planned</p>
+        <div class="pill-row">
+          <div class="pill-outline">OSINT</div>
+          <div class="pill-outline">Web security</div>
+          <div class="pill-outline">Reports & education</div>
+          <div class="pill-outline">Status: idea • in progress • planned</div>
         </div>
 
-        <div class="card">
-          <h3>Web App Pentest Reports</h3>
-          <p>Sample penetration test reports for understanding real-world vulnerabilities.</p>
-          <p class="meta">Status: Planned</p>
+        <div class="apps-grid">
+          <div class="app-card">
+            <div class="app-header-row">
+              <div class="app-name">OSINT Snapshot</div>
+              <div class="badge-status badge-soon">In progress</div>
+            </div>
+            <div class="app-desc">
+              Enter a username, email or domain and get a compact public OSINT snapshot you can
+              share or save. Aimed at non-technical users who want quick visibility.
+            </div>
+            <div class="app-footer-row">
+              <div class="app-tags">
+                <div class="app-tag">Python</div>
+                <div class="app-tag">APIs</div>
+                <div class="app-tag">OSINT</div>
+              </div>
+              <button class="app-btn" type="button">Launching soon</button>
+            </div>
+          </div>
+
+          <div class="app-card">
+            <div class="app-header-row">
+              <div class="app-name">SME Security Starter Pack</div>
+              <div class="badge-status badge-soon">In progress</div>
+            </div>
+            <div class="app-desc">
+              A practical starter pack for small businesses: checklist, priority actions and a
+              one-page explainer that founders can actually read and use.
+            </div>
+            <div class="app-footer-row">
+              <div class="app-tags">
+                <div class="app-tag">Checklists</div>
+                <div class="app-tag">PDF + web</div>
+              </div>
+              <button class="app-btn" type="button">Coming in 2026</button>
+            </div>
+          </div>
+
+          <div class="app-card">
+            <div class="app-header-row">
+              <div class="app-name">Web App Pentest Demo Reports</div>
+              <div class="badge-status badge-soon">Planned</div>
+            </div>
+            <div class="app-desc">
+              A series of example penetration test reports on test applications showing how
+              real issues are explained to non-technical teams and founders.
+            </div>
+            <div class="app-footer-row">
+              <div class="app-tags">
+                <div class="app-tag">Reports</div>
+                <div class="app-tag">Education</div>
+              </div>
+              <button class="app-btn" type="button">Planned</button>
+            </div>
+          </div>
+
+          <div class="app-card">
+            <div class="app-header-row">
+              <div class="app-name">Future tool slot</div>
+              <div class="badge-status badge-idea">Idea box</div>
+            </div>
+            <div class="app-desc">
+              Reserved for the next tool I ship as I keep finding new problems in security that
+              need simple, focused solutions.
+            </div>
+            <div class="app-footer-row">
+              <div class="app-tags">
+                <div class="app-tag">TBD</div>
+              </div>
+              <button class="app-btn" type="button">To be decided</button>
+            </div>
+          </div>
         </div>
-      </div>
-    </section>
+      </section>
 
-    <section id="roadmap">
-      <h2>2026 Roadmap</h2>
-      <ul>
-        <li>Build 2–3 real tools or apps.</li>
-        <li>Document journey on GitHub and LinkedIn.</li>
-        <li>Help small businesses with micro-security assessments.</li>
-        <li>Turn one tool into a paid micro-product.</li>
-      </ul>
-      <p class="meta">Theme: Create > Consume. Build in public.</p>
-    </section>
+      <section id="stack">
+        <div class="section-head">
+          <div class="section-title">Stack & focus</div>
+          <div class="section-sub">What I’m building with and what I care about.</div>
+        </div>
 
-    <section id="skills">
-      <h2>Skills I’m Leveling Up</h2>
-      <ul>
-        <li>Web app security</li>
-        <li>Linux & security tools</li>
-        <li>Python automation</li>
-        <li>Git & GitHub</li>
-        <li>Entrepreneurial problem solving</li>
-      </ul>
-    </section>
+        <div class="info-grid">
+          <div class="info-card">
+            <div class="info-title">Tech stack</div>
+            <ul class="info-list">
+              <li>Python for scripts, automation and OSINT tooling.</li>
+              <li>HTML, CSS and light JS for landing pages and dashboards.</li>
+              <li>Linux (Kali / Parrot) and Burp Suite for web security work.</li>
+              <li>GitHub for version control and hosting this site.</li>
+            </ul>
+            <div class="info-strip">Simple stack on purpose: less config, more shipping.</div>
+          </div>
 
-    <section id="contact">
-      <h2>Contact & Links</h2>
-      <div class="contact-box">
-        <p>GitHub: <a href="https://github.com/sumithchandra36" target="_blank">github.com/sumithchandra36</a></p>
-        <p class="meta">This site will soon link to my tools, scripts and reports as I build them.</p>
-      </div>
-    </section>
-  </main>
+          <div class="info-card" id="about">
+            <div class="info-title">How I think like a founder</div>
+            <ul class="info-list">
+              <li>Start from a problem: who does this help and why now?</li>
+              <li>Keep tools small, focused and easy to share.</li>
+              <li>Make security understandable for non-technical people.</li>
+              <li>Build in public so the journey is visible, not just the final product.</li>
+            </ul>
+            <div class="info-strip">Long-term: turn one of these experiments into a real micro-product.</div>
+          </div>
+        </div>
+      </section>
 
-  <footer>
-    Built in public • Hosted on GitHub Pages
-  </footer>
+      <section id="links">
+        <div class="section-head">
+          <div class="section-title">Connect with me</div>
+          <div class="section-sub">Follow the journey, give feedback or collaborate.</div>
+        </div>
+
+        <div class="links-card">
+          <div>
+            <div class="links-main-title">Let’s talk security, tools or ideas.</div>
+            <div class="links-main-sub">
+              I’m still early in my path, but serious about building. If you’re a founder, student
+              or developer and want to jam on cybersecurity, I’d love to connect.
+            </div>
+          </div>
+          <div class="links-list">
+            <div class="link-row">
+              <div class="link-label">LinkedIn</div>
+              <a
+                class="link-anchor"
+                href="https://www.linkedin.com/in/sumith-reddy-cyber/"
+                target="_blank"
+                rel="noreferrer"
+              >
+                linkedin.com/in/sumith-reddy-cyber
+              </a>
+            </div>
+            <div class="link-row">
+              <div class="link-label">GitHub</div>
+              <a
+                class="link-anchor"
+                href="https://github.com/sumithchandra36"
+                target="_blank"
+                rel="noreferrer"
+              >
+                github.com/sumithchandra36
+              </a>
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <footer>
+      © <span id="year"></span> Sumith Labs • Designed as a startup-style tool hub, not just a resume.
+    </footer>
+  </div>
+
+  <script>
+    function applyTheme(theme) {
+      var root = document.documentElement;
+      var emoji = document.getElementById("theme-emoji");
+      var label = document.getElementById("theme-label");
+      if (!root || !emoji || !label) return;
+      root.setAttribute("data-theme", theme);
+      if (theme === "light") {
+        emoji.textContent = "☀️";
+        label.textContent = "Light";
+      } else {
+        emoji.textContent = "🌙";
+        label.textContent = "Dark";
+      }
+    }
+
+    (function initTheme() {
+      var stored = null;
+      try {
+        stored = window.localStorage.getItem("sumith-theme");
+      } catch (e) {}
+      var theme = stored === "light" || stored === "dark" ? stored : null;
+      if (!theme) {
+        if (window.matchMedia && window.matchMedia("(prefers-color-scheme: light)").matches) {
+          theme = "light";
+        } else {
+          theme = "dark";
+        }
+      }
+      applyTheme(theme);
+    })();
+
+    var toggleBtn = document.getElementById("theme-toggle");
+    if (toggleBtn) {
+      toggleBtn.addEventListener("click", function () {
+        var current = document.documentElement.getAttribute("data-theme") || "dark";
+        var next = current === "dark" ? "light" : "dark";
+        applyTheme(next);
+        try {
+          window.localStorage.setItem("sumith-theme", next);
+        } catch (e) {}
+      });
+    }
+
+    function scrollToSection(id) {
+      var el = document.getElementById(id);
+      if (el && el.scrollIntoView) {
+        el.scrollIntoView({ behavior: "smooth", block: "start" });
+      }
+    }
+
+    (function setYear() {
+      var el = document.getElementById("year");
+      if (el) {
+        el.textContent = new Date().getFullYear();
+      }
+    })();
+  </script>
 </body>
 </html>
