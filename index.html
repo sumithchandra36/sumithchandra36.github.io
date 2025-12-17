@@ -60,37 +60,28 @@
 <!-- 2. HERO SECTION -->
 <!-- =============================== -->
 <!-- =============================== -->
-<!-- 2. HERO SECTION (SPLUNK STYLE) -->
+<!-- 2. HERO SECTION (SPLUNK STYLE + DYNAMIC) -->
 <!-- =============================== -->
 <section class="hero">
   <div class="hero-content">
-    <h1>Designing security tools that solve real‑world threats</h1>
-    <p>Detection Engineering • OSINT • AI Security • Threat Research</p>
+    <h1 id="heroTitle"></h1>
+    <p id="heroSubtitle"></p>
   </div>
 </section>
 
 <!-- =============================== -->
-<!-- 2.5 STATS / CAPABILITIES SECTION -->
+<!-- 2.5 STATS / CAPABILITIES SECTION (DYNAMIC) -->
 <!-- =============================== -->
 <section class="capabilities">
-  <div class="cap-grid">
-    <div class="cap">🔍 <h3>Detection Engineering</h3><p>Sigma, KQL, SPL, SentinelOne & XDR-based detections</p></div>
-    <div class="cap">🤖 <h3>AI Security</h3><p>Prompt injection, jailbreaking, hallucination analysis</p></div>
-    <div class="cap">🕵️ <h3>OSINT & Automation</h3><p>Recon tooling, digital footprint mapping, enrichment</p></div>
-    <div class="cap">⚔️ <h3>Attack Research</h3><p>Password spray, phishing, LOLBins, adversary TTPs</p></div>
-  </div>
+  <div class="cap-grid" id="capGrid"></div>
 </section>
 
 <!-- =============================== -->
-<!-- 3. RECENT WORK SECTION -->
+<!-- 3. RECENT WORK SECTION (DYNAMIC) -->
 <!-- =============================== -->
 <section class="recent-work">
   <h2>What I’ve Been Working On</h2>
-  <div class="cards">
-    <div class="card">OSINT Automation Tool</div>
-    <div class="card">Detection Rule for Phishing</div>
-    <div class="card">AI Prompt Jailbreak Research</div>
-  </div>
+  <div class="cards" id="recentWork"></div>
 </section>
 
 <!-- =============================== -->
@@ -115,28 +106,77 @@
 <!-- 5. THEME SCRIPT -->
 <!-- =============================== -->
 <script>
+  /* ===============================
+     DYNAMIC CONTENT CONFIG
+  =============================== */
+  const siteData = {
+    hero: {
+      title: "Designing security tools that solve real-world threats",
+      subtitle: "Detection Engineering • OSINT • AI Security • Threat Research"
+    },
+    capabilities: [
+      { icon: "🔍", title: "Detection Engineering", desc: "Sigma, KQL, SPL, SentinelOne & XDR-based detections" },
+      { icon: "🤖", title: "AI Security", desc: "Prompt injection, jailbreaking, hallucination analysis" },
+      { icon: "🕵️", title: "OSINT & Automation", desc: "Recon tooling, digital footprint mapping, enrichment" },
+      { icon: "⚔️", title: "Attack Research", desc: "Password spray, phishing, LOLBins, adversary TTPs" }
+    ],
+    recentWork: [
+      "OSINT Automation Tool",
+      "Detection Rule for Phishing",
+      "AI Prompt Jailbreak Research",
+      "XDR Alert Tuning & False Positive Reduction"
+    ]
+  };
+
+  /* ===============================
+     HERO LOAD
+  =============================== */
+  document.getElementById('heroTitle').textContent = siteData.hero.title;
+  document.getElementById('heroSubtitle').textContent = siteData.hero.subtitle;
+
+  /* ===============================
+     CAPABILITIES LOAD
+  =============================== */
+  const capGrid = document.getElementById('capGrid');
+  siteData.capabilities.forEach(c => {
+    const div = document.createElement('div');
+    div.className = 'cap';
+    div.innerHTML = `${c.icon}<h3>${c.title}</h3><p>${c.desc}</p>`;
+    capGrid.appendChild(div);
+  });
+
+  /* ===============================
+     RECENT WORK LOAD
+  =============================== */
+  const rw = document.getElementById('recentWork');
+  siteData.recentWork.forEach(item => {
+    const div = document.createElement('div');
+    div.className = 'card';
+    div.textContent = item;
+    rw.appendChild(div);
+  });
+
+  /* ===============================
+     THEME TOGGLE
+  =============================== */
   const toggle = document.getElementById('themeToggle');
   toggle.addEventListener('click', () => {
     document.body.classList.toggle('dark');
     toggle.textContent = document.body.classList.contains('dark') ? '☀️' : '🌙';
   });
 
-  // ===== Mega menu click behavior =====
+  /* ===============================
+     MEGA MENU BEHAVIOR
+  =============================== */
   const megas = document.querySelectorAll('.mega');
-
   megas.forEach(mega => {
     mega.addEventListener('click', (e) => {
       e.stopPropagation();
-      // close others
-      megas.forEach(m => {
-        if (m !== mega) m.classList.remove('open');
-      });
-      // toggle current
+      megas.forEach(m => m !== mega && m.classList.remove('open'));
       mega.classList.toggle('open');
     });
   });
 
-  // close menu when clicking outside
   document.addEventListener('click', () => {
     megas.forEach(m => m.classList.remove('open'));
   });
