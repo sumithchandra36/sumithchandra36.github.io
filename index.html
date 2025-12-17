@@ -247,6 +247,7 @@ body::before {
 .mega { position: relative; cursor: pointer; }
 
 .mega-menu {
+  transform: translateX(0);
   display: none;
   position: absolute;
   top: 50px;
@@ -369,5 +370,12 @@ body::before {
   filter: invert(1);
 }
 
+
+
+/* Fix right overflow for last menu item */
+.menu > .mega:last-child .mega-menu {
+  left: auto;
+  right: 0;
+}
 
 </style>
