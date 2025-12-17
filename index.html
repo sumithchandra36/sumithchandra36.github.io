@@ -1,767 +1,305 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sumith Labs – Cybersecurity Tools & Apps</title>
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        :root {
-            --bg-primary: #0a0a0f;
-            --bg-secondary: #13131a;
-            --bg-card: #1a1a24;
-            --text-primary: #e4e4e7;
-            --text-secondary: #a1a1aa;
-            --accent: #6366f1;
-            --accent-hover: #818cf8;
-            --border: #27272a;
-            --glow: rgba(99, 102, 241, 0.3);
-        }
-
-        body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-            background: var(--bg-primary);
-            color: var(--text-primary);
-            line-height: 1.6;
-            overflow-x: hidden;
-        }
-
-        /* Animated gradient background */
-        body::before {
-            content: '';
-            position: fixed;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: radial-gradient(circle at 20% 50%, rgba(99, 102, 241, 0.1) 0%, transparent 50%),
-                        radial-gradient(circle at 80% 80%, rgba(139, 92, 246, 0.1) 0%, transparent 50%);
-            animation: gradientShift 15s ease infinite;
-            pointer-events: none;
-            z-index: 0;
-        }
-
-        @keyframes gradientShift {
-            0%, 100% { opacity: 1; transform: scale(1); }
-            50% { opacity: 0.8; transform: scale(1.1); }
-        }
-
-        .container {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 0 20px;
-            position: relative;
-            z-index: 1;
-        }
-
-        /* Navigation */
-        nav {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 30px 0;
-            backdrop-filter: blur(10px);
-            animation: slideDown 0.8s ease;
-        }
-
-        @keyframes slideDown {
-            from { opacity: 0; transform: translateY(-20px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-
-        .logo {
-            font-size: 24px;
-            font-weight: 700;
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            cursor: pointer;
-            transition: transform 0.3s ease;
-        }
-
-        .logo:hover {
-            transform: scale(1.05);
-        }
-
-        .logo-icon {
-            width: 40px;
-            height: 40px;
-            background: linear-gradient(135deg, var(--accent), #8b5cf6);
-            border-radius: 8px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-weight: 700;
-            box-shadow: 0 0 20px var(--glow);
-            animation: pulse 3s ease infinite;
-        }
-
-        @keyframes pulse {
-            0%, 100% { box-shadow: 0 0 20px var(--glow); }
-            50% { box-shadow: 0 0 30px var(--glow), 0 0 40px var(--glow); }
-        }
-
-        .nav-links {
-            display: flex;
-            gap: 30px;
-            list-style: none;
-        }
-
-        .nav-links a {
-            color: var(--text-secondary);
-            text-decoration: none;
-            transition: all 0.3s ease;
-            position: relative;
-        }
-
-        .nav-links a::after {
-            content: '';
-            position: absolute;
-            bottom: -5px;
-            left: 0;
-            width: 0;
-            height: 2px;
-            background: var(--accent);
-            transition: width 0.3s ease;
-        }
-
-        .nav-links a:hover {
-            color: var(--accent);
-        }
-
-        .nav-links a:hover::after {
-            width: 100%;
-        }
-
-        .theme-toggle {
-            background: var(--bg-card);
-            border: 1px solid var(--border);
-            color: var(--text-primary);
-            padding: 8px 16px;
-            border-radius: 8px;
-            cursor: pointer;
-            transition: all 0.3s ease;
-        }
-
-        .theme-toggle:hover {
-            background: var(--accent);
-            border-color: var(--accent);
-            transform: translateY(-2px);
-        }
-
-        /* Hero Section */
-        .hero {
-            text-align: center;
-            padding: 80px 0;
-            animation: fadeIn 1s ease;
-        }
-
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(30px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-
-        .hero-tag {
-            display: inline-block;
-            background: rgba(99, 102, 241, 0.1);
-            border: 1px solid rgba(99, 102, 241, 0.3);
-            padding: 8px 20px;
-            border-radius: 20px;
-            color: var(--accent);
-            font-size: 14px;
-            margin-bottom: 30px;
-            animation: float 3s ease infinite;
-        }
-
-        @keyframes float {
-            0%, 100% { transform: translateY(0); }
-            50% { transform: translateY(-10px); }
-        }
-
-        .hero h1 {
-            font-size: 56px;
-            line-height: 1.2;
-            margin-bottom: 20px;
-            background: linear-gradient(135deg, #e4e4e7, #a1a1aa);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-        }
-
-        .hero p {
-            font-size: 20px;
-            color: var(--text-secondary);
-            max-width: 800px;
-            margin: 0 auto 40px;
-        }
-
-        .badge-group {
-            display: flex;
-            justify-content: center;
-            gap: 15px;
-            flex-wrap: wrap;
-            margin-bottom: 40px;
-        }
-
-        .badge {
-            background: var(--bg-card);
-            border: 1px solid var(--border);
-            padding: 10px 20px;
-            border-radius: 8px;
-            font-size: 14px;
-            transition: all 0.3s ease;
-            cursor: default;
-        }
-
-        .badge:hover {
-            border-color: var(--accent);
-            transform: translateY(-3px);
-            box-shadow: 0 10px 30px rgba(99, 102, 241, 0.2);
-        }
-
-        .btn-group {
-            display: flex;
-            justify-content: center;
-            gap: 20px;
-            flex-wrap: wrap;
-        }
-
-        .btn {
-            padding: 14px 32px;
-            border-radius: 10px;
-            text-decoration: none;
-            font-weight: 600;
-            transition: all 0.3s ease;
-            display: inline-block;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .btn::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: -100%;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
-            transition: left 0.5s ease;
-        }
-
-        .btn:hover::before {
-            left: 100%;
-        }
-
-        .btn-primary {
-            background: var(--accent);
-            color: white;
-            border: none;
-        }
-
-        .btn-primary:hover {
-            background: var(--accent-hover);
-            transform: translateY(-2px);
-            box-shadow: 0 10px 30px var(--glow);
-        }
-
-        .btn-secondary {
-            background: transparent;
-            color: var(--text-primary);
-            border: 1px solid var(--border);
-        }
-
-        .btn-secondary:hover {
-            border-color: var(--accent);
-            background: rgba(99, 102, 241, 0.1);
-            transform: translateY(-2px);
-        }
-
-        /* Status Badge */
-        .status-banner {
-            text-align: center;
-            padding: 40px 0;
-            animation: fadeIn 1.2s ease;
-        }
-
-        .status-card {
-            display: inline-flex;
-            align-items: center;
-            gap: 12px;
-            background: rgba(16, 185, 129, 0.1);
-            border: 1px solid rgba(16, 185, 129, 0.3);
-            padding: 12px 24px;
-            border-radius: 12px;
-            animation: glow 2s ease infinite;
-        }
-
-        @keyframes glow {
-            0%, 100% { box-shadow: 0 0 20px rgba(16, 185, 129, 0.2); }
-            50% { box-shadow: 0 0 30px rgba(16, 185, 129, 0.4); }
-        }
-
-        .status-dot {
-            width: 10px;
-            height: 10px;
-            background: #10b981;
-            border-radius: 50%;
-            animation: ping 2s cubic-bezier(0, 0, 0.2, 1) infinite;
-        }
-
-        @keyframes ping {
-            75%, 100% {
-                transform: scale(2);
-                opacity: 0;
-            }
-        }
-
-        /* Tools Grid */
-        .section {
-            padding: 60px 0;
-        }
-
-        .section-header {
-            text-align: center;
-            margin-bottom: 50px;
-        }
-
-        .section-header h2 {
-            font-size: 42px;
-            margin-bottom: 15px;
-        }
-
-        .section-header p {
-            color: var(--text-secondary);
-            font-size: 18px;
-        }
-
-        .tools-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 30px;
-            margin-top: 40px;
-        }
-
-        .tool-card {
-            background: var(--bg-card);
-            border: 1px solid var(--border);
-            border-radius: 16px;
-            padding: 30px;
-            transition: all 0.3s ease;
-            position: relative;
-            overflow: hidden;
-            cursor: pointer;
-            animation: fadeInUp 0.6s ease forwards;
-            opacity: 0;
-        }
-
-        .tool-card:nth-child(1) { animation-delay: 0.1s; }
-        .tool-card:nth-child(2) { animation-delay: 0.2s; }
-        .tool-card:nth-child(3) { animation-delay: 0.3s; }
-        .tool-card:nth-child(4) { animation-delay: 0.4s; }
-
-        @keyframes fadeInUp {
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-            from {
-                opacity: 0;
-                transform: translateY(20px);
-            }
-        }
-
-        .tool-card::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            height: 3px;
-            background: linear-gradient(90deg, var(--accent), #8b5cf6);
-            transform: scaleX(0);
-            transition: transform 0.3s ease;
-        }
-
-        .tool-card:hover::before {
-            transform: scaleX(1);
-        }
-
-        .tool-card:hover {
-            transform: translateY(-10px);
-            border-color: var(--accent);
-            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
-        }
-
-        .tool-status {
-            display: inline-block;
-            padding: 4px 12px;
-            border-radius: 12px;
-            font-size: 12px;
-            font-weight: 600;
-            margin-bottom: 15px;
-        }
-
-        .status-progress {
-            background: rgba(251, 191, 36, 0.2);
-            color: #fbbf24;
-            border: 1px solid rgba(251, 191, 36, 0.3);
-        }
-
-        .status-planned {
-            background: rgba(168, 85, 247, 0.2);
-            color: #a855f7;
-            border: 1px solid rgba(168, 85, 247, 0.3);
-        }
-
-        .tool-card h3 {
-            font-size: 24px;
-            margin-bottom: 15px;
-            color: var(--text-primary);
-        }
-
-        .tool-card p {
-            color: var(--text-secondary);
-            margin-bottom: 20px;
-            line-height: 1.6;
-        }
-
-        .tool-tags {
-            display: flex;
-            gap: 10px;
-            flex-wrap: wrap;
-        }
-
-        .tag {
-            background: rgba(99, 102, 241, 0.1);
-            color: var(--accent);
-            padding: 4px 12px;
-            border-radius: 6px;
-            font-size: 12px;
-        }
-
-        /* Stack Section */
-        .stack-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-            gap: 30px;
-        }
-
-        .stack-card {
-            background: var(--bg-card);
-            border: 1px solid var(--border);
-            border-radius: 16px;
-            padding: 30px;
-            transition: all 0.3s ease;
-        }
-
-        .stack-card:hover {
-            border-color: var(--accent);
-            transform: translateY(-5px);
-        }
-
-        .stack-card h3 {
-            font-size: 20px;
-            margin-bottom: 20px;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-
-        .stack-card ul {
-            list-style: none;
-            color: var(--text-secondary);
-        }
-
-        .stack-card li {
-            padding: 8px 0;
-            padding-left: 20px;
-            position: relative;
-        }
-
-        .stack-card li::before {
-            content: '→';
-            position: absolute;
-            left: 0;
-            color: var(--accent);
-        }
-
-        /* Footer */
-        footer {
-            text-align: center;
-            padding: 60px 0 40px;
-            border-top: 1px solid var(--border);
-            margin-top: 80px;
-        }
-
-        .social-links {
-            display: flex;
-            justify-content: center;
-            gap: 30px;
-            margin-bottom: 30px;
-        }
-
-        .social-link {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 10px;
-            text-decoration: none;
-            color: var(--text-secondary);
-            transition: all 0.3s ease;
-        }
-
-        .social-link:hover {
-            color: var(--accent);
-            transform: translateY(-5px);
-        }
-
-        .social-icon {
-            width: 60px;
-            height: 60px;
-            background: var(--bg-card);
-            border: 1px solid var(--border);
-            border-radius: 12px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 24px;
-            transition: all 0.3s ease;
-        }
-
-        .social-link:hover .social-icon {
-            background: var(--accent);
-            border-color: var(--accent);
-            box-shadow: 0 10px 30px var(--glow);
-        }
-
-        /* Scroll animations */
-        .scroll-reveal {
-            opacity: 0;
-            transform: translateY(30px);
-            transition: all 0.6s ease;
-        }
-
-        .scroll-reveal.active {
-            opacity: 1;
-            transform: translateY(0);
-        }
-
-        @media (max-width: 768px) {
-            .hero h1 {
-                font-size: 36px;
-            }
-            
-            .nav-links {
-                display: none;
-            }
-            
-            .tools-grid {
-                grid-template-columns: 1fr;
-            }
-        }
-    </style>
-</head>
-<body>
-    <div class="container">
-        <nav>
-            <div class="logo">
-                <div class="logo-icon">SR</div>
-                <span>Sumith Labs</span>
-            </div>
-            <ul class="nav-links">
-                <li><a href="#apps">Apps</a></li>
-                <li><a href="#stack">Stack</a></li>
-                <li><a href="#about">About</a></li>
-                <li><a href="#links">Links</a></li>
-            </ul>
-            <button class="theme-toggle">🌙 Dark</button>
-        </nav>
-
-        <section class="hero">
-            <div class="hero-tag">Security startup playground</div>
-            <h1>Shipping small cybersecurity<br>tools from my laptop.</h1>
-            <p>I'm Sumith, an early-stage cybersecurity builder from India. This site is my mini app hub where I launch tools, experiments and micro-products for real people and small businesses.</p>
-            
-            <div class="badge-group">
-                <div class="badge">🛡️ Web app security</div>
-                <div class="badge">🔍 OSINT & automation</div>
-                <div class="badge">⚡ Solo founder energy</div>
-                <div class="badge">🚀 Built in public</div>
-            </div>
-
-            <div class="btn-group">
-                <a href="#apps" class="btn btn-primary">Browse tools</a>
-                <a href="#links" class="btn btn-secondary">Connect with me</a>
-            </div>
-        </section>
-
-        <div class="status-banner scroll-reveal">
-            <div class="status-card">
-                <div class="status-dot"></div>
-                <span><strong>Currently:</strong> building first public tools and demo reports for the 2026 launch.</span>
-            </div>
+<!-- =============================== -->
+<!-- 1. HEADER / NAVBAR (TOP UI) -->
+<!-- =============================== -->
+<!-- =============================== -->
+<!-- 1. HEADER / NAVBAR (SPLUNK-LIKE) -->
+<!-- =============================== -->
+<header class="navbar">
+  <div class="logo">Sumith Reddy</div>
+
+  <nav>
+    <ul class="menu">
+      <li class="mega" tabindex="0">Applications
+        <div class="mega-menu">
+          <div>
+            <h4>Applications</h4>
+            <a>OSINT Automation</a>
+            <a>Digital Footprint</a>
+            <a>Detection Conversions</a>
+          </div>
         </div>
+      </li>
 
-        <section id="apps" class="section scroll-reveal">
-            <div class="section-header">
-                <h2>Live from Sumith Security Labs</h2>
-                <p>As tools go live, this panel will link to real apps, demos or GitHub repositories.</p>
-            </div>
+      <li class="mega" tabindex="0">Attacks
+        <div class="mega-menu">
+          <div>
+            <h4>Attacks</h4>
+            <a>Password Spray</a>
+            <a>DDoS</a>
+            <a>Phishing</a>
+          </div>
+        </div>
+      </li>
 
-            <div class="tools-grid">
-                <div class="tool-card">
-                    <span class="tool-status status-progress">In progress</span>
-                    <h3>OSINT Snapshot</h3>
-                    <p>Quick public footprint for usernames, emails and domains.</p>
-                    <div class="tool-tags">
-                        <span class="tag">Python</span>
-                        <span class="tag">APIs</span>
-                        <span class="tag">OSINT</span>
-                    </div>
-                </div>
+      <li class="mega" tabindex="0">AI
+        <div class="mega-menu">
+          <div>
+            <h4>AI Security</h4>
+            <a>Model Abuse</a>
+            <a>Prompt Injection</a>
+          </div>
+        </div>
+      </li>
 
-                <div class="tool-card">
-                    <span class="tool-status status-progress">Beta soon</span>
-                    <h3>SME Security Starter Pack</h3>
-                    <p>Checklists and basics for small business security.</p>
-                    <div class="tool-tags">
-                        <span class="tag">Checklists</span>
-                        <span class="tag">PDF + web</span>
-                    </div>
-                </div>
+      <li class="mega" tabindex="0">Threat Intelligence
+        <div class="mega-menu">
+          <div>
+            <h4>Detection Engineering</h4>
+            <a>Recent Detection Rules</a>
+            <a>Attack-Based Rules</a>
+          </div>
+        </div>
+      </li>
+    </ul>
+  </nav>
 
-                <div class="tool-card">
-                    <span class="tool-status status-planned">Planning</span>
-                    <h3>Web App Pentest Demos</h3>
-                    <p>Client-style reports for demo applications.</p>
-                    <div class="tool-tags">
-                        <span class="tag">Reports</span>
-                        <span class="tag">Education</span>
-                    </div>
-                </div>
+  <button id="themeToggle">🌙</button>
+</header>
 
-                <div class="tool-card">
-                    <span class="tool-status status-planned">Idea box</span>
-                    <h3>Future tool slot</h3>
-                    <p>Reserved for the next tool I ship as I keep finding new problems in security that need simple, focused solutions.</p>
-                    <div class="tool-tags">
-                        <span class="tag">TBD</span>
-                    </div>
-                </div>
-            </div>
-        </section>
+<!-- =============================== -->
+<!-- 2. HERO SECTION -->
+<!-- =============================== -->
+<!-- =============================== -->
+<!-- 2. HERO SECTION (SPLUNK STYLE) -->
+<!-- =============================== -->
+<section class="hero">
+  <div class="hero-content">
+    <h1>Designing security tools that solve real‑world threats</h1>
+    <p>Detection Engineering • OSINT • AI Security • Threat Research</p>
+  </div>
+</section>
 
-        <section id="stack" class="section scroll-reveal">
-            <div class="section-header">
-                <h2>Stack & focus</h2>
-                <p>What I'm building with and what I care about.</p>
-            </div>
+<!-- =============================== -->
+<!-- 2.5 STATS / CAPABILITIES SECTION -->
+<!-- =============================== -->
+<section class="capabilities">
+  <div class="cap-grid">
+    <div class="cap">🔍 <h3>Detection Engineering</h3><p>Sigma, KQL, SPL, SentinelOne & XDR-based detections</p></div>
+    <div class="cap">🤖 <h3>AI Security</h3><p>Prompt injection, jailbreaking, hallucination analysis</p></div>
+    <div class="cap">🕵️ <h3>OSINT & Automation</h3><p>Recon tooling, digital footprint mapping, enrichment</p></div>
+    <div class="cap">⚔️ <h3>Attack Research</h3><p>Password spray, phishing, LOLBins, adversary TTPs</p></div>
+  </div>
+</section>
 
-            <div class="stack-grid">
-                <div class="stack-card">
-                    <h3>💻 Tech stack</h3>
-                    <ul>
-                        <li>Python for scripts, automation and OSINT tooling.</li>
-                        <li>HTML, CSS and light JS for landing pages and dashboards.</li>
-                        <li>Linux (Kali / Parrot) and Burp Suite for web security work.</li>
-                        <li>GitHub for version control and hosting this site.</li>
-                    </ul>
-                    <p style="margin-top: 20px; color: var(--text-secondary); font-size: 14px;">Simple stack on purpose: less config, more shipping.</p>
-                </div>
+<!-- =============================== -->
+<!-- 3. RECENT WORK SECTION -->
+<!-- =============================== -->
+<section class="recent-work">
+  <h2>What I’ve Been Working On</h2>
+  <div class="cards">
+    <div class="card">OSINT Automation Tool</div>
+    <div class="card">Detection Rule for Phishing</div>
+    <div class="card">AI Prompt Jailbreak Research</div>
+  </div>
+</section>
 
-                <div class="stack-card">
-                    <h3>🎯 How I think like a founder</h3>
-                    <ul>
-                        <li>Start from a problem: who does this help and why now?</li>
-                        <li>Keep tools small, focused and easy to share.</li>
-                        <li>Make security understandable for non-technical people.</li>
-                        <li>Build in public so the journey is visible, not just the final product.</li>
-                    </ul>
-                    <p style="margin-top: 20px; color: var(--text-secondary); font-size: 14px;">Long-term: turn one of these experiments into a real micro-product.</p>
-                </div>
-            </div>
-        </section>
+<!-- =============================== -->
+<!-- 4. FOOTER -->
+<!-- =============================== -->
+<!-- =============================== -->
+<!-- 4. FOOTER WITH SOCIAL ICONS -->
+<!-- =============================== -->
+<footer class="footer">
+  <a href="https://www.linkedin.com/in/sumith-reddy-cyber/" target="_blank">
+    <img src="https://cdn.jsdelivr.net/gh/simple-icons/simple-icons/icons/linkedin.svg" />
+  </a>
+  <a href="https://github.com/sumithchandra36" target="_blank">
+    <img src="https://cdn.jsdelivr.net/gh/simple-icons/simple-icons/icons/github.svg" />
+  </a>
+  <a href="https://www.reddit.com/u/reddy_sumith" target="_blank">
+    <img src="https://cdn.jsdelivr.net/gh/simple-icons/simple-icons/icons/reddit.svg" />
+  </a>
+</footer>
 
-        <section id="links" class="section scroll-reveal">
-            <div class="section-header">
-                <h2>Connect with me</h2>
-                <p>Follow the journey, give feedback or collaborate.</p>
-            </div>
+<!-- =============================== -->
+<!-- 5. THEME SCRIPT -->
+<!-- =============================== -->
+<script>
+  const toggle = document.getElementById('themeToggle');
+  toggle.addEventListener('click', () => {
+    document.body.classList.toggle('dark');
+    toggle.textContent = document.body.classList.contains('dark') ? '☀️' : '🌙';
+  });
 
-            <p style="text-align: center; color: var(--text-secondary); max-width: 600px; margin: 0 auto 40px;">
-                I'm still early in my path, but serious about building. If you're a founder, student or developer and want to jam on cybersecurity, I'd love to connect.
-            </p>
+  // ===== Mega menu click behavior =====
+  const megas = document.querySelectorAll('.mega');
 
-            <div class="social-links">
-                <a href="https://www.linkedin.com/in/sumith-reddy-cyber/" class="social-link" target="_blank">
-                    <div class="social-icon">💼</div>
-                    <span>LinkedIn</span>
-                </a>
-                <a href="https://github.com/sumithchandra36" class="social-link" target="_blank">
-                    <div class="social-icon">⚡</div>
-                    <span>GitHub</span>
-                </a>
-            </div>
-        </section>
+  megas.forEach(mega => {
+    mega.addEventListener('click', (e) => {
+      e.stopPropagation();
+      // close others
+      megas.forEach(m => {
+        if (m !== mega) m.classList.remove('open');
+      });
+      // toggle current
+      mega.classList.toggle('open');
+    });
+  });
 
-        <footer>
-            <p style="color: var(--text-secondary);">© Sumith Labs • Designed as a startup-style tool hub, not just a resume.</p>
-        </footer>
-    </div>
+  // close menu when clicking outside
+  document.addEventListener('click', () => {
+    megas.forEach(m => m.classList.remove('open'));
+  });
+</script>
 
-    <script>
-        // Scroll reveal animations
-        const scrollReveal = () => {
-            const reveals = document.querySelectorAll('.scroll-reveal');
-            
-            reveals.forEach(element => {
-                const windowHeight = window.innerHeight;
-                const elementTop = element.getBoundingClientRect().top;
-                const elementVisible = 150;
-                
-                if (elementTop < windowHeight - elementVisible) {
-                    element.classList.add('active');
-                }
-            });
-        };
+<!-- =============================== -->
+<!-- 6. BASIC STYLES (ADD TO CSS) -->
+<!-- =============================== -->
+<style>
+/* ========== GLOBAL ========== */
+body {
+  margin: 0;
+  font-family: Inter, Arial, sans-serif;
+  background: #ffffff;
+  color: #111;
+}
 
-        window.addEventListener('scroll', scrollReveal);
-        scrollReveal(); // Initial check
+body.dark {
+  background: #0b0b0b;
+  color: #eaeaea;
+}
 
-        // Smooth scrolling for navigation links
-        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-            anchor.addEventListener('click', function (e) {
-                e.preventDefault();
-                const target = document.querySelector(this.getAttribute('href'));
-                if (target) {
-                    target.scrollIntoView({
-                        behavior: 'smooth',
-                        block: 'start'
-                    });
-                }
-            });
-        });
+/* ========== NAVBAR ========== */
+.navbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20px 60px;
+  background: #fff;
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+}
 
-        // Tool card click animation
-        document.querySelectorAll('.tool-card').forEach(card => {
-            card.addEventListener('click', function() {
-                this.style.transform = 'scale(0.98) translateY(-10px)';
-                setTimeout(() => {
-                    this.style.transform = 'translateY(-10px)';
-                }, 200);
-            });
-        });
+body.dark .navbar { background: #0b0b0b; }
 
-        // Parallax effect for background
-        window.addEventListener('scroll', () => {
-            const scrolled = window.pageYOffset;
-            document.body.style.setProperty('--scroll', scrolled * 0.5 + 'px');
-        });
-    </script>
-</body>
-</html>
+.menu {
+  display: flex;
+  gap: 30px;
+  list-style: none;
+}
+
+.mega { position: relative; cursor: pointer; }
+
+.mega-menu {
+  display: none;
+  position: absolute;
+  top: 50px;
+  left: 0;
+  width: 400px;
+  background: #fff;
+  padding: 30px;
+  box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+}
+
+.mega.open .mega-menu {
+  display: block;
+}
+
+body.dark .mega-menu { background: #111; }
+
+body.dark .mega-menu { background: #111; }
+
+/* hover removed – controlled via JS */
+
+.mega-menu h4 { margin-bottom: 10px; }
+.mega-menu a { display: block; margin: 6px 0; }
+
+/* ========== HERO ========== */
+.hero {
+  min-height: 90vh;
+  display: flex;
+  align-items: center;
+  padding: 0 80px;
+  background: linear-gradient(120deg, #ffffff 0%, #f4f7fb 40%, #e9eef5 100%);
+  position: relative;
+}
+
+body.dark .hero {
+  background: linear-gradient(120deg, #0b0b0b 0%, #121212 40%, #1a1a1a 100%);
+}
+
+.hero-content { max-width: 600px; z-index: 2; }
+
+.hero::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background-image: repeating-linear-gradient(
+    90deg,
+    rgba(0,0,0,0.04) 0,
+    rgba(0,0,0,0.04) 1px,
+    transparent 1px,
+    transparent 20px
+  );
+  pointer-events: none;
+}
+
+body.dark .hero::after {
+  background-image: repeating-linear-gradient(
+    90deg,
+    rgba(255,255,255,0.06) 0,
+    rgba(255,255,255,0.06) 1px,
+    transparent 1px,
+    transparent 18px
+  );
+}
+.hero h1 { font-size: 48px; }
+
+/* ========== CAPABILITIES ========== */
+.capabilities {
+  padding: 100px 80px;
+  background: linear-gradient(180deg, rgba(0,0,0,0.03), rgba(0,0,0,0));
+}
+
+.cap-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 40px;
+}
+
+.cap {
+  background: #fff;
+  padding: 30px;
+  border-radius: 18px;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.08);
+}
+
+body.dark .cap {
+  background: #111;
+}
+
+.cap h3 { margin-top: 10px; }
+
+/* ========== RECENT WORK ========== */
+.recent-work { padding: 80px; }
+
+.cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 30px;
+}
+
+.card {
+  background: rgba(0,0,0,0.03);
+  padding: 25px;
+  border-radius: 14px;
+}
+
+body.dark .card { background: rgba(255,255,255,0.08); }
+
+/* ========== FOOTER ========== */
+.footer {
+  display: flex;
+  justify-content: center;
+  gap: 30px;
+  padding: 40px;
+}
+
+.footer img {
+  width: 28px;
+  filter: invert(0);
+}
+
+body.dark .footer img { filter: invert(1); }
+</style>
