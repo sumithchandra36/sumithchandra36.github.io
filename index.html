@@ -1,961 +1,767 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <title>Sumith Labs – Cybersecurity Tools & Apps</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <style>
-    :root {
-      --radius-lg: 18px;
-      --radius-md: 12px;
-      --radius-pill: 999px;
-      --shadow-soft: 0 18px 40px rgba(15, 23, 42, 0.55);
-      --transition-fast: 0.18s ease-out;
-    }
-
-    :root[data-theme="dark"] {
-      --bg: #020617;
-      --bg-elevated: #020617;
-      --bg-card: #020617;
-      --bg-card-soft: #020617;
-      --border-subtle: #1e293b;
-      --border-strong: #334155;
-      --text-main: #e5e7eb;
-      --text-muted: #94a3b8;
-      --accent: #38bdf8;
-      --accent-soft: rgba(56, 189, 248, 0.14);
-      --accent-strong: #0ea5e9;
-      --chip-bg: rgba(15, 23, 42, 0.9);
-      --nav-bg: rgba(2, 6, 23, 0.92);
-      --hero-gradient: radial-gradient(circle at top, #0b1120 0, #020617 55%);
-    }
-
-    :root[data-theme="light"] {
-      --bg: #f9fafb;
-      --bg-elevated: #f3f4f6;
-      --bg-card: #ffffff;
-      --bg-card-soft: #f9fafb;
-      --border-subtle: #e5e7eb;
-      --border-strong: #cbd5f5;
-      --text-main: #0f172a;
-      --text-muted: #6b7280;
-      --accent: #2563eb;
-      --accent-soft: rgba(37, 99, 235, 0.1);
-      --accent-strong: #1d4ed8;
-      --chip-bg: #e5edff;
-      --nav-bg: rgba(249, 250, 251, 0.96);
-      --hero-gradient: radial-gradient(circle at top, #e5edff 0, #f9fafb 55%);
-    }
-
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-    }
-
-    body {
-      min-height: 100vh;
-      background: var(--hero-gradient);
-      color: var(--text-main);
-      line-height: 1.6;
-      transition: background 0.25s ease-out, color 0.25s ease-out;
-    }
-
-    a {
-      color: var(--accent);
-      text-decoration: none;
-      transition: color var(--transition-fast), opacity var(--transition-fast);
-    }
-
-    a:hover {
-      opacity: 0.9;
-    }
-
-    .shell {
-      max-width: 1120px;
-      margin: 0 auto;
-      padding: 16px 16px 32px;
-    }
-
-    header {
-      position: sticky;
-      top: 0;
-      z-index: 30;
-      backdrop-filter: blur(18px);
-      background: var(--nav-bg);
-      border-bottom: 1px solid var(--border-subtle);
-    }
-
-    .nav-inner {
-      max-width: 1120px;
-      margin: 0 auto;
-      padding: 10px 16px;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 16px;
-    }
-
-    .brand {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-    }
-
-    .brand-logo {
-      width: 32px;
-      height: 32px;
-      border-radius: 12px;
-      background: radial-gradient(circle at 30% 15%, #38bdf8, #0f172a);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 0.9rem;
-      color: #e5e7eb;
-      box-shadow: 0 14px 34px rgba(56, 189, 248, 0.6);
-    }
-
-    .brand-text-main {
-      font-size: 1rem;
-      font-weight: 600;
-      letter-spacing: 0.08em;
-      text-transform: uppercase;
-    }
-
-    .brand-text-sub {
-      font-size: 0.78rem;
-      color: var(--text-muted);
-    }
-
-    .nav-right {
-      display: flex;
-      align-items: center;
-      gap: 12px;
-    }
-
-    .nav-links {
-      display: flex;
-      gap: 12px;
-      font-size: 0.82rem;
-    }
-
-    .nav-links a {
-      color: var(--text-muted);
-      padding: 6px 0;
-    }
-
-    .nav-links a:hover {
-      color: var(--accent);
-    }
-
-    .theme-toggle {
-      border-radius: var(--radius-pill);
-      padding: 4px 10px;
-      border: 1px solid var(--border-subtle);
-      background: var(--bg-card-soft);
-      display: inline-flex;
-      align-items: center;
-      gap: 6px;
-      font-size: 0.8rem;
-      cursor: pointer;
-      transition: background var(--transition-fast), border-color var(--transition-fast), transform 0.1s;
-    }
-
-    .theme-toggle span {
-      font-size: 1rem;
-    }
-
-    .theme-toggle:active {
-      transform: scale(0.97);
-    }
-
-    main {
-      margin-top: 26px;
-    }
-
-    .hero {
-      display: grid;
-      grid-template-columns: minmax(0, 3.1fr) minmax(0, 2.2fr);
-      gap: 26px;
-      align-items: center;
-      margin-bottom: 32px;
-    }
-
-    .hero-eyebrow {
-      font-size: 0.78rem;
-      text-transform: uppercase;
-      letter-spacing: 0.18em;
-      color: var(--accent);
-      margin-bottom: 8px;
-    }
-
-    .hero-title {
-      font-size: clamp(2.2rem, 4vw, 2.8rem);
-      font-weight: 700;
-      margin-bottom: 10px;
-    }
-
-    .hero-title span {
-      color: var(--accent-strong);
-    }
-
-    .hero-sub {
-      font-size: 0.95rem;
-      color: var(--text-muted);
-      max-width: 460px;
-      margin-bottom: 16px;
-    }
-
-    .hero-tags {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 8px;
-      margin-bottom: 16px;
-    }
-
-    .chip {
-      padding: 4px 10px;
-      border-radius: var(--radius-pill);
-      font-size: 0.8rem;
-      background: var(--accent-soft);
-      color: var(--accent-strong);
-      border: 1px solid rgba(148, 163, 184, 0.35);
-    }
-
-    .hero-actions {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 10px;
-      margin-bottom: 8px;
-    }
-
-    .btn-primary {
-      border-radius: var(--radius-pill);
-      padding: 8px 18px;
-      border: none;
-      background: linear-gradient(135deg, var(--accent), var(--accent-strong));
-      color: #0b1120;
-      font-size: 0.86rem;
-      font-weight: 600;
-      cursor: pointer;
-      box-shadow: var(--shadow-soft);
-      transition: transform var(--transition-fast), box-shadow var(--transition-fast), opacity var(--transition-fast);
-    }
-
-    .btn-primary:hover {
-      transform: translateY(-1px);
-      opacity: 0.96;
-    }
-
-    .btn-ghost {
-      border-radius: var(--radius-pill);
-      padding: 7px 16px;
-      border: 1px solid var(--border-subtle);
-      background: var(--bg-card-soft);
-      color: var(--text-muted);
-      font-size: 0.84rem;
-      cursor: pointer;
-      transition: background var(--transition-fast), border-color var(--transition-fast), color var(--transition-fast);
-    }
-
-    .btn-ghost:hover {
-      border-color: var(--accent);
-      color: var(--accent-strong);
-    }
-
-    .hero-status {
-      font-size: 0.8rem;
-      color: var(--text-muted);
-    }
-
-    .hero-panel {
-      border-radius: var(--radius-lg);
-      padding: 16px 16px 14px;
-      background: radial-gradient(circle at top left, rgba(56, 189, 248, 0.12), rgba(15, 23, 42, 0.96));
-      border: 1px solid var(--border-strong);
-      box-shadow: var(--shadow-soft);
-    }
-
-    :root[data-theme="light"] .hero-panel {
-      background: radial-gradient(circle at top left, rgba(37, 99, 235, 0.12), #ffffff);
-    }
-
-    .hero-panel-head {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      margin-bottom: 10px;
-      font-size: 0.8rem;
-      color: var(--text-muted);
-    }
-
-    .hero-dots {
-      display: flex;
-      gap: 5px;
-    }
-
-    .hero-dot {
-      width: 8px;
-      height: 8px;
-      border-radius: 999px;
-    }
-
-    .hero-dot:nth-child(1) {
-      background: #f97316;
-    }
-
-    .hero-dot:nth-child(2) {
-      background: #22c55e;
-    }
-
-    .hero-dot:nth-child(3) {
-      background: #38bdf8;
-    }
-
-    .hero-app-list {
-      display: flex;
-      flex-direction: column;
-      gap: 9px;
-      font-size: 0.8rem;
-    }
-
-    .hero-app-item {
-      display: flex;
-      justify-content: space-between;
-      align-items: flex-start;
-      gap: 8px;
-      padding: 8px 10px;
-      border-radius: 12px;
-      background: rgba(15, 23, 42, 0.85);
-      border: 1px solid rgba(30, 64, 175, 0.8);
-    }
-
-    :root[data-theme="light"] .hero-app-item {
-      background: #eff6ff;
-    }
-
-    .hero-app-name {
-      font-weight: 500;
-      margin-bottom: 2px;
-    }
-
-    .hero-app-desc {
-      color: var(--text-muted);
-    }
-
-    .hero-app-pill {
-      font-size: 0.7rem;
-      padding: 3px 7px;
-      border-radius: var(--radius-pill);
-      background: rgba(34, 197, 94, 0.14);
-      color: #4ade80;
-      white-space: nowrap;
-    }
-
-    .hero-app-pill.soft {
-      background: rgba(148, 163, 184, 0.12);
-      color: var(--text-muted);
-    }
-
-    .hero-mini {
-      margin-top: 8px;
-      font-size: 0.78rem;
-      color: var(--text-muted);
-    }
-
-    section {
-      margin-bottom: 30px;
-    }
-
-    .section-head {
-      display: flex;
-      align-items: baseline;
-      justify-content: space-between;
-      gap: 10px;
-      margin-bottom: 12px;
-    }
-
-    .section-title {
-      font-size: 1.12rem;
-      font-weight: 600;
-    }
-
-    .section-sub {
-      font-size: 0.8rem;
-      color: var(--text-muted);
-    }
-
-    .pill-row {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 8px;
-      margin-bottom: 10px;
-      font-size: 0.8rem;
-    }
-
-    .pill-outline {
-      padding: 4px 9px;
-      border-radius: var(--radius-pill);
-      border: 1px dashed var(--border-subtle);
-      color: var(--text-muted);
-    }
-
-    .apps-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
-      gap: 16px;
-    }
-
-    .app-card {
-      border-radius: var(--radius-md);
-      background: var(--bg-card);
-      border: 1px solid var(--border-subtle);
-      padding: 14px 14px 12px;
-      display: flex;
-      flex-direction: column;
-      gap: 6px;
-      box-shadow: 0 14px 28px rgba(15, 23, 42, 0.32);
-      transition: transform var(--transition-fast), box-shadow var(--transition-fast), border-color var(--transition-fast), background var(--transition-fast);
-    }
-
-    :root[data-theme="light"] .app-card {
-      box-shadow: 0 12px 30px rgba(15, 23, 42, 0.12);
-    }
-
-    .app-card:hover {
-      transform: translateY(-2px);
-      border-color: var(--accent-soft);
-      box-shadow: 0 18px 40px rgba(15, 23, 42, 0.65);
-    }
-
-    .app-header-row {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      gap: 6px;
-      font-size: 0.78rem;
-      color: var(--text-muted);
-    }
-
-    .badge-status {
-      padding: 3px 8px;
-      border-radius: var(--radius-pill);
-      font-size: 0.7rem;
-      background: rgba(34, 197, 94, 0.13);
-      color: #4ade80;
-    }
-
-    .badge-soon {
-      background: rgba(148, 163, 184, 0.16);
-      color: var(--text-muted);
-    }
-
-    .badge-idea {
-      background: rgba(56, 189, 248, 0.12);
-      color: var(--accent-strong);
-    }
-
-    .app-name {
-      font-size: 0.9rem;
-      font-weight: 600;
-    }
-
-    .app-desc {
-      font-size: 0.8rem;
-      color: var(--text-muted);
-    }
-
-    .app-footer-row {
-      margin-top: 6px;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      gap: 6px;
-    }
-
-    .app-tags {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 4px;
-      font-size: 0.7rem;
-    }
-
-    .app-tag {
-      padding: 2px 7px;
-      border-radius: var(--radius-pill);
-      background: var(--chip-bg);
-      border: 1px solid var(--border-subtle);
-    }
-
-    :root[data-theme="light"] .app-tag {
-      background: #eef2ff;
-    }
-
-    .app-btn {
-      font-size: 0.75rem;
-      padding: 5px 10px;
-      border-radius: var(--radius-pill);
-      border: none;
-      background: var(--accent-soft);
-      color: var(--accent-strong);
-      cursor: default;
-      white-space: nowrap;
-    }
-
-    .info-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-      gap: 16px;
-    }
-
-    .info-card {
-      border-radius: var(--radius-md);
-      background: var(--bg-card);
-      border: 1px solid var(--border-subtle);
-      padding: 14px 14px 12px;
-      font-size: 0.84rem;
-      box-shadow: 0 12px 28px rgba(15, 23, 42, 0.4);
-    }
-
-    .info-title {
-      font-weight: 600;
-      margin-bottom: 6px;
-    }
-
-    .info-list {
-      margin-left: 14px;
-      margin-top: 4px;
-      font-size: 0.8rem;
-      color: var(--text-muted);
-    }
-
-    .info-list li {
-      margin-bottom: 3px;
-    }
-
-    .info-strip {
-      margin-top: 8px;
-      padding: 7px 9px;
-      border-radius: 10px;
-      font-size: 0.78rem;
-      background: var(--accent-soft);
-      color: var(--accent-strong);
-    }
-
-    .links-card {
-      margin-top: 10px;
-      border-radius: var(--radius-lg);
-      background: radial-gradient(circle at top left, rgba(56, 189, 248, 0.18), rgba(15, 23, 42, 0.98));
-      border: 1px solid rgba(148, 163, 184, 0.7);
-      padding: 16px 16px 14px;
-      display: grid;
-      grid-template-columns: minmax(0, 3fr) minmax(0, 2.2fr);
-      gap: 16px;
-      align-items: center;
-      box-shadow: var(--shadow-soft);
-    }
-
-    :root[data-theme="light"] .links-card {
-      background: radial-gradient(circle at top left, rgba(37, 99, 235, 0.25), #111827);
-      color: #e5e7eb;
-    }
-
-    .links-main-title {
-      font-size: 1rem;
-      font-weight: 600;
-      margin-bottom: 6px;
-    }
-
-    .links-main-sub {
-      font-size: 0.82rem;
-      color: #cbd5f5;
-      max-width: 360px;
-    }
-
-    :root[data-theme="light"] .links-main-sub {
-      color: #cbd5f5;
-    }
-
-    .links-list {
-      font-size: 0.84rem;
-      display: flex;
-      flex-direction: column;
-      gap: 6px;
-    }
-
-    .link-row {
-      display: flex;
-      align-items: center;
-      gap: 8px;
-    }
-
-    .link-label {
-      font-size: 0.78rem;
-      opacity: 0.8;
-      min-width: 64px;
-    }
-
-    .link-anchor {
-      font-size: 0.84rem;
-      word-break: break-all;
-    }
-
-    footer {
-      margin-top: 16px;
-      padding-top: 10px;
-      font-size: 0.75rem;
-      color: var(--text-muted);
-      text-align: center;
-    }
-
-    @media (max-width: 900px) {
-      .hero {
-        grid-template-columns: minmax(0, 1fr);
-      }
-      .hero-panel {
-        order: -1;
-      }
-    }
-
-    @media (max-width: 720px) {
-      .nav-inner {
-        flex-direction: column;
-        align-items: flex-start;
-      }
-      .nav-right {
-        width: 100%;
-        justify-content: space-between;
-      }
-      .nav-links {
-        display: none;
-      }
-      .shell {
-        padding-inline: 14px;
-      }
-    }
-
-    @media (max-width: 520px) {
-      .links-card {
-        grid-template-columns: minmax(0, 1fr);
-      }
-    }
-  </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sumith Labs – Cybersecurity Tools & Apps</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --bg-primary: #0a0a0f;
+            --bg-secondary: #13131a;
+            --bg-card: #1a1a24;
+            --text-primary: #e4e4e7;
+            --text-secondary: #a1a1aa;
+            --accent: #6366f1;
+            --accent-hover: #818cf8;
+            --border: #27272a;
+            --glow: rgba(99, 102, 241, 0.3);
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        /* Animated gradient background */
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: radial-gradient(circle at 20% 50%, rgba(99, 102, 241, 0.1) 0%, transparent 50%),
+                        radial-gradient(circle at 80% 80%, rgba(139, 92, 246, 0.1) 0%, transparent 50%);
+            animation: gradientShift 15s ease infinite;
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        @keyframes gradientShift {
+            0%, 100% { opacity: 1; transform: scale(1); }
+            50% { opacity: 0.8; transform: scale(1.1); }
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+            position: relative;
+            z-index: 1;
+        }
+
+        /* Navigation */
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 30px 0;
+            backdrop-filter: blur(10px);
+            animation: slideDown 0.8s ease;
+        }
+
+        @keyframes slideDown {
+            from { opacity: 0; transform: translateY(-20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .logo {
+            font-size: 24px;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            cursor: pointer;
+            transition: transform 0.3s ease;
+        }
+
+        .logo:hover {
+            transform: scale(1.05);
+        }
+
+        .logo-icon {
+            width: 40px;
+            height: 40px;
+            background: linear-gradient(135deg, var(--accent), #8b5cf6);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            box-shadow: 0 0 20px var(--glow);
+            animation: pulse 3s ease infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { box-shadow: 0 0 20px var(--glow); }
+            50% { box-shadow: 0 0 30px var(--glow), 0 0 40px var(--glow); }
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 30px;
+            list-style: none;
+        }
+
+        .nav-links a {
+            color: var(--text-secondary);
+            text-decoration: none;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: var(--accent);
+            transition: width 0.3s ease;
+        }
+
+        .nav-links a:hover {
+            color: var(--accent);
+        }
+
+        .nav-links a:hover::after {
+            width: 100%;
+        }
+
+        .theme-toggle {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            color: var(--text-primary);
+            padding: 8px 16px;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .theme-toggle:hover {
+            background: var(--accent);
+            border-color: var(--accent);
+            transform: translateY(-2px);
+        }
+
+        /* Hero Section */
+        .hero {
+            text-align: center;
+            padding: 80px 0;
+            animation: fadeIn 1s ease;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .hero-tag {
+            display: inline-block;
+            background: rgba(99, 102, 241, 0.1);
+            border: 1px solid rgba(99, 102, 241, 0.3);
+            padding: 8px 20px;
+            border-radius: 20px;
+            color: var(--accent);
+            font-size: 14px;
+            margin-bottom: 30px;
+            animation: float 3s ease infinite;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+
+        .hero h1 {
+            font-size: 56px;
+            line-height: 1.2;
+            margin-bottom: 20px;
+            background: linear-gradient(135deg, #e4e4e7, #a1a1aa);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .hero p {
+            font-size: 20px;
+            color: var(--text-secondary);
+            max-width: 800px;
+            margin: 0 auto 40px;
+        }
+
+        .badge-group {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            flex-wrap: wrap;
+            margin-bottom: 40px;
+        }
+
+        .badge {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            padding: 10px 20px;
+            border-radius: 8px;
+            font-size: 14px;
+            transition: all 0.3s ease;
+            cursor: default;
+        }
+
+        .badge:hover {
+            border-color: var(--accent);
+            transform: translateY(-3px);
+            box-shadow: 0 10px 30px rgba(99, 102, 241, 0.2);
+        }
+
+        .btn-group {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            flex-wrap: wrap;
+        }
+
+        .btn {
+            padding: 14px 32px;
+            border-radius: 10px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            display: inline-block;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+            transition: left 0.5s ease;
+        }
+
+        .btn:hover::before {
+            left: 100%;
+        }
+
+        .btn-primary {
+            background: var(--accent);
+            color: white;
+            border: none;
+        }
+
+        .btn-primary:hover {
+            background: var(--accent-hover);
+            transform: translateY(-2px);
+            box-shadow: 0 10px 30px var(--glow);
+        }
+
+        .btn-secondary {
+            background: transparent;
+            color: var(--text-primary);
+            border: 1px solid var(--border);
+        }
+
+        .btn-secondary:hover {
+            border-color: var(--accent);
+            background: rgba(99, 102, 241, 0.1);
+            transform: translateY(-2px);
+        }
+
+        /* Status Badge */
+        .status-banner {
+            text-align: center;
+            padding: 40px 0;
+            animation: fadeIn 1.2s ease;
+        }
+
+        .status-card {
+            display: inline-flex;
+            align-items: center;
+            gap: 12px;
+            background: rgba(16, 185, 129, 0.1);
+            border: 1px solid rgba(16, 185, 129, 0.3);
+            padding: 12px 24px;
+            border-radius: 12px;
+            animation: glow 2s ease infinite;
+        }
+
+        @keyframes glow {
+            0%, 100% { box-shadow: 0 0 20px rgba(16, 185, 129, 0.2); }
+            50% { box-shadow: 0 0 30px rgba(16, 185, 129, 0.4); }
+        }
+
+        .status-dot {
+            width: 10px;
+            height: 10px;
+            background: #10b981;
+            border-radius: 50%;
+            animation: ping 2s cubic-bezier(0, 0, 0.2, 1) infinite;
+        }
+
+        @keyframes ping {
+            75%, 100% {
+                transform: scale(2);
+                opacity: 0;
+            }
+        }
+
+        /* Tools Grid */
+        .section {
+            padding: 60px 0;
+        }
+
+        .section-header {
+            text-align: center;
+            margin-bottom: 50px;
+        }
+
+        .section-header h2 {
+            font-size: 42px;
+            margin-bottom: 15px;
+        }
+
+        .section-header p {
+            color: var(--text-secondary);
+            font-size: 18px;
+        }
+
+        .tools-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            margin-top: 40px;
+        }
+
+        .tool-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            padding: 30px;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+            cursor: pointer;
+            animation: fadeInUp 0.6s ease forwards;
+            opacity: 0;
+        }
+
+        .tool-card:nth-child(1) { animation-delay: 0.1s; }
+        .tool-card:nth-child(2) { animation-delay: 0.2s; }
+        .tool-card:nth-child(3) { animation-delay: 0.3s; }
+        .tool-card:nth-child(4) { animation-delay: 0.4s; }
+
+        @keyframes fadeInUp {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+        }
+
+        .tool-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: linear-gradient(90deg, var(--accent), #8b5cf6);
+            transform: scaleX(0);
+            transition: transform 0.3s ease;
+        }
+
+        .tool-card:hover::before {
+            transform: scaleX(1);
+        }
+
+        .tool-card:hover {
+            transform: translateY(-10px);
+            border-color: var(--accent);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+        }
+
+        .tool-status {
+            display: inline-block;
+            padding: 4px 12px;
+            border-radius: 12px;
+            font-size: 12px;
+            font-weight: 600;
+            margin-bottom: 15px;
+        }
+
+        .status-progress {
+            background: rgba(251, 191, 36, 0.2);
+            color: #fbbf24;
+            border: 1px solid rgba(251, 191, 36, 0.3);
+        }
+
+        .status-planned {
+            background: rgba(168, 85, 247, 0.2);
+            color: #a855f7;
+            border: 1px solid rgba(168, 85, 247, 0.3);
+        }
+
+        .tool-card h3 {
+            font-size: 24px;
+            margin-bottom: 15px;
+            color: var(--text-primary);
+        }
+
+        .tool-card p {
+            color: var(--text-secondary);
+            margin-bottom: 20px;
+            line-height: 1.6;
+        }
+
+        .tool-tags {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+        .tag {
+            background: rgba(99, 102, 241, 0.1);
+            color: var(--accent);
+            padding: 4px 12px;
+            border-radius: 6px;
+            font-size: 12px;
+        }
+
+        /* Stack Section */
+        .stack-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 30px;
+        }
+
+        .stack-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            padding: 30px;
+            transition: all 0.3s ease;
+        }
+
+        .stack-card:hover {
+            border-color: var(--accent);
+            transform: translateY(-5px);
+        }
+
+        .stack-card h3 {
+            font-size: 20px;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .stack-card ul {
+            list-style: none;
+            color: var(--text-secondary);
+        }
+
+        .stack-card li {
+            padding: 8px 0;
+            padding-left: 20px;
+            position: relative;
+        }
+
+        .stack-card li::before {
+            content: '→';
+            position: absolute;
+            left: 0;
+            color: var(--accent);
+        }
+
+        /* Footer */
+        footer {
+            text-align: center;
+            padding: 60px 0 40px;
+            border-top: 1px solid var(--border);
+            margin-top: 80px;
+        }
+
+        .social-links {
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            margin-bottom: 30px;
+        }
+
+        .social-link {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 10px;
+            text-decoration: none;
+            color: var(--text-secondary);
+            transition: all 0.3s ease;
+        }
+
+        .social-link:hover {
+            color: var(--accent);
+            transform: translateY(-5px);
+        }
+
+        .social-icon {
+            width: 60px;
+            height: 60px;
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            transition: all 0.3s ease;
+        }
+
+        .social-link:hover .social-icon {
+            background: var(--accent);
+            border-color: var(--accent);
+            box-shadow: 0 10px 30px var(--glow);
+        }
+
+        /* Scroll animations */
+        .scroll-reveal {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 0.6s ease;
+        }
+
+        .scroll-reveal.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        @media (max-width: 768px) {
+            .hero h1 {
+                font-size: 36px;
+            }
+            
+            .nav-links {
+                display: none;
+            }
+            
+            .tools-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
 </head>
 <body>
-  <header>
-    <div class="nav-inner">
-      <div class="brand">
-        <div class="brand-logo">SR</div>
-        <div>
-          <div class="brand-text-main">Sumith Labs</div>
-          <div class="brand-text-sub">Indie cybersecurity tools • Built in public</div>
+    <div class="container">
+        <nav>
+            <div class="logo">
+                <div class="logo-icon">SR</div>
+                <span>Sumith Labs</span>
+            </div>
+            <ul class="nav-links">
+                <li><a href="#apps">Apps</a></li>
+                <li><a href="#stack">Stack</a></li>
+                <li><a href="#about">About</a></li>
+                <li><a href="#links">Links</a></li>
+            </ul>
+            <button class="theme-toggle">🌙 Dark</button>
+        </nav>
+
+        <section class="hero">
+            <div class="hero-tag">Security startup playground</div>
+            <h1>Shipping small cybersecurity<br>tools from my laptop.</h1>
+            <p>I'm Sumith, an early-stage cybersecurity builder from India. This site is my mini app hub where I launch tools, experiments and micro-products for real people and small businesses.</p>
+            
+            <div class="badge-group">
+                <div class="badge">🛡️ Web app security</div>
+                <div class="badge">🔍 OSINT & automation</div>
+                <div class="badge">⚡ Solo founder energy</div>
+                <div class="badge">🚀 Built in public</div>
+            </div>
+
+            <div class="btn-group">
+                <a href="#apps" class="btn btn-primary">Browse tools</a>
+                <a href="#links" class="btn btn-secondary">Connect with me</a>
+            </div>
+        </section>
+
+        <div class="status-banner scroll-reveal">
+            <div class="status-card">
+                <div class="status-dot"></div>
+                <span><strong>Currently:</strong> building first public tools and demo reports for the 2026 launch.</span>
+            </div>
         </div>
-      </div>
-      <div class="nav-right">
-        <div class="nav-links">
-          <a href="#apps">Apps</a>
-          <a href="#stack">Stack</a>
-          <a href="#about">About</a>
-          <a href="#links">Links</a>
-        </div>
-        <button id="theme-toggle" class="theme-toggle" type="button">
-          <span id="theme-emoji">🌙</span>
-          <span id="theme-label">Dark</span>
-        </button>
-      </div>
+
+        <section id="apps" class="section scroll-reveal">
+            <div class="section-header">
+                <h2>Live from Sumith Security Labs</h2>
+                <p>As tools go live, this panel will link to real apps, demos or GitHub repositories.</p>
+            </div>
+
+            <div class="tools-grid">
+                <div class="tool-card">
+                    <span class="tool-status status-progress">In progress</span>
+                    <h3>OSINT Snapshot</h3>
+                    <p>Quick public footprint for usernames, emails and domains.</p>
+                    <div class="tool-tags">
+                        <span class="tag">Python</span>
+                        <span class="tag">APIs</span>
+                        <span class="tag">OSINT</span>
+                    </div>
+                </div>
+
+                <div class="tool-card">
+                    <span class="tool-status status-progress">Beta soon</span>
+                    <h3>SME Security Starter Pack</h3>
+                    <p>Checklists and basics for small business security.</p>
+                    <div class="tool-tags">
+                        <span class="tag">Checklists</span>
+                        <span class="tag">PDF + web</span>
+                    </div>
+                </div>
+
+                <div class="tool-card">
+                    <span class="tool-status status-planned">Planning</span>
+                    <h3>Web App Pentest Demos</h3>
+                    <p>Client-style reports for demo applications.</p>
+                    <div class="tool-tags">
+                        <span class="tag">Reports</span>
+                        <span class="tag">Education</span>
+                    </div>
+                </div>
+
+                <div class="tool-card">
+                    <span class="tool-status status-planned">Idea box</span>
+                    <h3>Future tool slot</h3>
+                    <p>Reserved for the next tool I ship as I keep finding new problems in security that need simple, focused solutions.</p>
+                    <div class="tool-tags">
+                        <span class="tag">TBD</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="stack" class="section scroll-reveal">
+            <div class="section-header">
+                <h2>Stack & focus</h2>
+                <p>What I'm building with and what I care about.</p>
+            </div>
+
+            <div class="stack-grid">
+                <div class="stack-card">
+                    <h3>💻 Tech stack</h3>
+                    <ul>
+                        <li>Python for scripts, automation and OSINT tooling.</li>
+                        <li>HTML, CSS and light JS for landing pages and dashboards.</li>
+                        <li>Linux (Kali / Parrot) and Burp Suite for web security work.</li>
+                        <li>GitHub for version control and hosting this site.</li>
+                    </ul>
+                    <p style="margin-top: 20px; color: var(--text-secondary); font-size: 14px;">Simple stack on purpose: less config, more shipping.</p>
+                </div>
+
+                <div class="stack-card">
+                    <h3>🎯 How I think like a founder</h3>
+                    <ul>
+                        <li>Start from a problem: who does this help and why now?</li>
+                        <li>Keep tools small, focused and easy to share.</li>
+                        <li>Make security understandable for non-technical people.</li>
+                        <li>Build in public so the journey is visible, not just the final product.</li>
+                    </ul>
+                    <p style="margin-top: 20px; color: var(--text-secondary); font-size: 14px;">Long-term: turn one of these experiments into a real micro-product.</p>
+                </div>
+            </div>
+        </section>
+
+        <section id="links" class="section scroll-reveal">
+            <div class="section-header">
+                <h2>Connect with me</h2>
+                <p>Follow the journey, give feedback or collaborate.</p>
+            </div>
+
+            <p style="text-align: center; color: var(--text-secondary); max-width: 600px; margin: 0 auto 40px;">
+                I'm still early in my path, but serious about building. If you're a founder, student or developer and want to jam on cybersecurity, I'd love to connect.
+            </p>
+
+            <div class="social-links">
+                <a href="https://www.linkedin.com/in/sumith-reddy-cyber/" class="social-link" target="_blank">
+                    <div class="social-icon">💼</div>
+                    <span>LinkedIn</span>
+                </a>
+                <a href="https://github.com/sumithchandra36" class="social-link" target="_blank">
+                    <div class="social-icon">⚡</div>
+                    <span>GitHub</span>
+                </a>
+            </div>
+        </section>
+
+        <footer>
+            <p style="color: var(--text-secondary);">© Sumith Labs • Designed as a startup-style tool hub, not just a resume.</p>
+        </footer>
     </div>
-  </header>
 
-  <div class="shell">
-    <main>
-      <section class="hero">
-        <div>
-          <div class="hero-eyebrow">Security startup playground</div>
-          <h1 class="hero-title">Shipping small <span>cybersecurity tools</span> from my laptop.</h1>
-          <p class="hero-sub">
-            I’m Sumith, an early-stage cybersecurity builder from India. This site is my mini app
-            hub where I launch tools, experiments and micro-products for real people and small businesses.
-          </p>
-          <div class="hero-tags">
-            <div class="chip">Web app security</div>
-            <div class="chip">OSINT & automation</div>
-            <div class="chip">Solo founder energy</div>
-            <div class="chip">Built in public</div>
-          </div>
-          <div class="hero-actions">
-            <button class="btn-primary" type="button" onclick="scrollToSection('apps')">
-              Browse tools
-            </button>
-            <button class="btn-ghost" type="button" onclick="scrollToSection('links')">
-              Connect with me
-            </button>
-          </div>
-          <div class="hero-status">
-            Currently: building first public tools and demo reports for the 2026 launch.
-          </div>
-        </div>
-        <div class="hero-panel">
-          <div class="hero-panel-head">
-            <div>Live from Sumith Security Labs</div>
-            <div class="hero-dots">
-              <div class="hero-dot"></div>
-              <div class="hero-dot"></div>
-              <div class="hero-dot"></div>
-            </div>
-          </div>
-          <div class="hero-app-list">
-            <div class="hero-app-item">
-              <div>
-                <div class="hero-app-name">OSINT Snapshot</div>
-                <div class="hero-app-desc">Quick public footprint for usernames, emails and domains.</div>
-              </div>
-              <div class="hero-app-pill soft">In progress</div>
-            </div>
-            <div class="hero-app-item">
-              <div>
-                <div class="hero-app-name">SME Security Starter Pack</div>
-                <div class="hero-app-desc">Checklists and basics for small business security.</div>
-              </div>
-              <div class="hero-app-pill">Beta soon</div>
-            </div>
-            <div class="hero-app-item">
-              <div>
-                <div class="hero-app-name">Web App Pentest Demos</div>
-                <div class="hero-app-desc">Client-style reports for demo applications.</div>
-              </div>
-              <div class="hero-app-pill soft">Planning</div>
-            </div>
-          </div>
-          <div class="hero-mini">
-            As tools go live, this panel will link to real apps, demos or GitHub repositories.
-          </div>
-        </div>
-      </section>
+    <script>
+        // Scroll reveal animations
+        const scrollReveal = () => {
+            const reveals = document.querySelectorAll('.scroll-reveal');
+            
+            reveals.forEach(element => {
+                const windowHeight = window.innerHeight;
+                const elementTop = element.getBoundingClientRect().top;
+                const elementVisible = 150;
+                
+                if (elementTop < windowHeight - elementVisible) {
+                    element.classList.add('active');
+                }
+            });
+        };
 
-      <section id="apps">
-        <div class="section-head">
-          <div class="section-title">Apps & tools</div>
-          <div class="section-sub">A focused lab of cybersecurity utilities and learning products.</div>
-        </div>
+        window.addEventListener('scroll', scrollReveal);
+        scrollReveal(); // Initial check
 
-        <div class="pill-row">
-          <div class="pill-outline">OSINT</div>
-          <div class="pill-outline">Web security</div>
-          <div class="pill-outline">Reports & education</div>
-          <div class="pill-outline">Status: idea • in progress • planned</div>
-        </div>
+        // Smooth scrolling for navigation links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
 
-        <div class="apps-grid">
-          <div class="app-card">
-            <div class="app-header-row">
-              <div class="app-name">OSINT Snapshot</div>
-              <div class="badge-status badge-soon">In progress</div>
-            </div>
-            <div class="app-desc">
-              Enter a username, email or domain and get a compact public OSINT snapshot you can
-              share or save. Aimed at non-technical users who want quick visibility.
-            </div>
-            <div class="app-footer-row">
-              <div class="app-tags">
-                <div class="app-tag">Python</div>
-                <div class="app-tag">APIs</div>
-                <div class="app-tag">OSINT</div>
-              </div>
-              <button class="app-btn" type="button">Launching soon</button>
-            </div>
-          </div>
+        // Tool card click animation
+        document.querySelectorAll('.tool-card').forEach(card => {
+            card.addEventListener('click', function() {
+                this.style.transform = 'scale(0.98) translateY(-10px)';
+                setTimeout(() => {
+                    this.style.transform = 'translateY(-10px)';
+                }, 200);
+            });
+        });
 
-          <div class="app-card">
-            <div class="app-header-row">
-              <div class="app-name">SME Security Starter Pack</div>
-              <div class="badge-status badge-soon">In progress</div>
-            </div>
-            <div class="app-desc">
-              A practical starter pack for small businesses: checklist, priority actions and a
-              one-page explainer that founders can actually read and use.
-            </div>
-            <div class="app-footer-row">
-              <div class="app-tags">
-                <div class="app-tag">Checklists</div>
-                <div class="app-tag">PDF + web</div>
-              </div>
-              <button class="app-btn" type="button">Coming in 2026</button>
-            </div>
-          </div>
-
-          <div class="app-card">
-            <div class="app-header-row">
-              <div class="app-name">Web App Pentest Demo Reports</div>
-              <div class="badge-status badge-soon">Planned</div>
-            </div>
-            <div class="app-desc">
-              A series of example penetration test reports on test applications showing how
-              real issues are explained to non-technical teams and founders.
-            </div>
-            <div class="app-footer-row">
-              <div class="app-tags">
-                <div class="app-tag">Reports</div>
-                <div class="app-tag">Education</div>
-              </div>
-              <button class="app-btn" type="button">Planned</button>
-            </div>
-          </div>
-
-          <div class="app-card">
-            <div class="app-header-row">
-              <div class="app-name">Future tool slot</div>
-              <div class="badge-status badge-idea">Idea box</div>
-            </div>
-            <div class="app-desc">
-              Reserved for the next tool I ship as I keep finding new problems in security that
-              need simple, focused solutions.
-            </div>
-            <div class="app-footer-row">
-              <div class="app-tags">
-                <div class="app-tag">TBD</div>
-              </div>
-              <button class="app-btn" type="button">To be decided</button>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      <section id="stack">
-        <div class="section-head">
-          <div class="section-title">Stack & focus</div>
-          <div class="section-sub">What I’m building with and what I care about.</div>
-        </div>
-
-        <div class="info-grid">
-          <div class="info-card">
-            <div class="info-title">Tech stack</div>
-            <ul class="info-list">
-              <li>Python for scripts, automation and OSINT tooling.</li>
-              <li>HTML, CSS and light JS for landing pages and dashboards.</li>
-              <li>Linux (Kali / Parrot) and Burp Suite for web security work.</li>
-              <li>GitHub for version control and hosting this site.</li>
-            </ul>
-            <div class="info-strip">Simple stack on purpose: less config, more shipping.</div>
-          </div>
-
-          <div class="info-card" id="about">
-            <div class="info-title">How I think like a founder</div>
-            <ul class="info-list">
-              <li>Start from a problem: who does this help and why now?</li>
-              <li>Keep tools small, focused and easy to share.</li>
-              <li>Make security understandable for non-technical people.</li>
-              <li>Build in public so the journey is visible, not just the final product.</li>
-            </ul>
-            <div class="info-strip">Long-term: turn one of these experiments into a real micro-product.</div>
-          </div>
-        </div>
-      </section>
-
-      <section id="links">
-        <div class="section-head">
-          <div class="section-title">Connect with me</div>
-          <div class="section-sub">Follow the journey, give feedback or collaborate.</div>
-        </div>
-
-        <div class="links-card">
-          <div>
-            <div class="links-main-title">Let’s talk security, tools or ideas.</div>
-            <div class="links-main-sub">
-              I’m still early in my path, but serious about building. If you’re a founder, student
-              or developer and want to jam on cybersecurity, I’d love to connect.
-            </div>
-          </div>
-          <div class="links-list">
-            <div class="link-row">
-              <div class="link-label">LinkedIn</div>
-              <a
-                class="link-anchor"
-                href="https://www.linkedin.com/in/sumith-reddy-cyber/"
-                target="_blank"
-                rel="noreferrer"
-              >
-                linkedin.com/in/sumith-reddy-cyber
-              </a>
-            </div>
-            <div class="link-row">
-              <div class="link-label">GitHub</div>
-              <a
-                class="link-anchor"
-                href="https://github.com/sumithchandra36"
-                target="_blank"
-                rel="noreferrer"
-              >
-                github.com/sumithchandra36
-              </a>
-            </div>
-          </div>
-        </div>
-      </section>
-    </main>
-
-    <footer>
-      © <span id="year"></span> Sumith Labs • Designed as a startup-style tool hub, not just a resume.
-    </footer>
-  </div>
-
-  <script>
-    function applyTheme(theme) {
-      var root = document.documentElement;
-      var emoji = document.getElementById("theme-emoji");
-      var label = document.getElementById("theme-label");
-      if (!root || !emoji || !label) return;
-      root.setAttribute("data-theme", theme);
-      if (theme === "light") {
-        emoji.textContent = "☀️";
-        label.textContent = "Light";
-      } else {
-        emoji.textContent = "🌙";
-        label.textContent = "Dark";
-      }
-    }
-
-    (function initTheme() {
-      var stored = null;
-      try {
-        stored = window.localStorage.getItem("sumith-theme");
-      } catch (e) {}
-      var theme = stored === "light" || stored === "dark" ? stored : null;
-      if (!theme) {
-        if (window.matchMedia && window.matchMedia("(prefers-color-scheme: light)").matches) {
-          theme = "light";
-        } else {
-          theme = "dark";
-        }
-      }
-      applyTheme(theme);
-    })();
-
-    var toggleBtn = document.getElementById("theme-toggle");
-    if (toggleBtn) {
-      toggleBtn.addEventListener("click", function () {
-        var current = document.documentElement.getAttribute("data-theme") || "dark";
-        var next = current === "dark" ? "light" : "dark";
-        applyTheme(next);
-        try {
-          window.localStorage.setItem("sumith-theme", next);
-        } catch (e) {}
-      });
-    }
-
-    function scrollToSection(id) {
-      var el = document.getElementById(id);
-      if (el && el.scrollIntoView) {
-        el.scrollIntoView({ behavior: "smooth", block: "start" });
-      }
-    }
-
-    (function setYear() {
-      var el = document.getElementById("year");
-      if (el) {
-        el.textContent = new Date().getFullYear();
-      }
-    })();
-  </script>
+        // Parallax effect for background
+        window.addEventListener('scroll', () => {
+            const scrolled = window.pageYOffset;
+            document.body.style.setProperty('--scroll', scrolled * 0.5 + 'px');
+        });
+    </script>
 </body>
 </html>
