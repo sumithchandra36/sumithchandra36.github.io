@@ -5,7 +5,7 @@
 <!-- 1. HEADER / NAVBAR (SPLUNK-LIKE) -->
 <!-- =============================== -->
 <header class="navbar">
-  <div class="logo">Sumith Reddy</div>
+  <div class="logo"><a class="logo-link" href="https://sumithchandra36.github.io/">Sumith Reddy</a></div>
 
   <nav>
     <ul class="menu">
@@ -53,7 +53,7 @@
     </ul>
   </nav>
 
-  <button id="themeToggle">🌙</button>
+  
 </header>
 
 <!-- =============================== -->
@@ -107,7 +107,7 @@
 <!-- =============================== -->
 <script>
   /* ===============================
-     DYNAMIC CONTENT CONFIG
+     DYNAMIC SITE DATA
   =============================== */
   const siteData = {
     hero: {
@@ -129,13 +129,13 @@
   };
 
   /* ===============================
-     HERO LOAD
+     LOAD HERO CONTENT
   =============================== */
   document.getElementById('heroTitle').textContent = siteData.hero.title;
   document.getElementById('heroSubtitle').textContent = siteData.hero.subtitle;
 
   /* ===============================
-     CAPABILITIES LOAD
+     LOAD CAPABILITIES
   =============================== */
   const capGrid = document.getElementById('capGrid');
   siteData.capabilities.forEach(c => {
@@ -146,7 +146,7 @@
   });
 
   /* ===============================
-     RECENT WORK LOAD
+     LOAD RECENT WORK
   =============================== */
   const rw = document.getElementById('recentWork');
   siteData.recentWork.forEach(item => {
@@ -157,28 +157,19 @@
   });
 
   /* ===============================
-     THEME TOGGLE
-  =============================== */
-  const toggle = document.getElementById('themeToggle');
-  toggle.addEventListener('click', () => {
-    document.body.classList.toggle('dark');
-    toggle.textContent = document.body.classList.contains('dark') ? '☀️' : '🌙';
-  });
-
-  /* ===============================
-     MEGA MENU BEHAVIOR
+     MEGA MENU BEHAVIOR (HOVER – FIXED)
   =============================== */
   const megas = document.querySelectorAll('.mega');
-  megas.forEach(mega => {
-    mega.addEventListener('click', (e) => {
-      e.stopPropagation();
-      megas.forEach(m => m !== mega && m.classList.remove('open'));
-      mega.classList.toggle('open');
-    });
-  });
 
-  document.addEventListener('click', () => {
-    megas.forEach(m => m.classList.remove('open'));
+  megas.forEach(mega => {
+    mega.addEventListener('mouseenter', () => {
+      megas.forEach(m => m !== mega && m.classList.remove('open'));
+      mega.classList.add('open');
+    });
+
+    mega.addEventListener('mouseleave', () => {
+      mega.classList.remove('open');
+    });
   });
 </script>
 
@@ -190,13 +181,47 @@
 body {
   margin: 0;
   font-family: Inter, Arial, sans-serif;
-  background: #ffffff;
-  color: #111;
-}
-
-body.dark {
   background: #0b0b0b;
   color: #eaeaea;
+  overflow-x: hidden;
+}
+
+/* GLOBAL HACKER BACKGROUND */
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  background:
+    repeating-linear-gradient(
+      180deg,
+      rgba(0,255,170,0.05) 0px,
+      rgba(0,255,170,0.05) 1px,
+      transparent 1px,
+      transparent 22px
+    ),
+    repeating-linear-gradient(
+      90deg,
+      rgba(0,255,170,0.04) 0px,
+      rgba(0,255,170,0.04) 1px,
+      transparent 1px,
+      transparent 28px
+    );
+  pointer-events: none;
+  z-index: 0;
+}
+
+
+
+/* ========== NAVBAR ========== */
+.logo-link {
+  color: inherit;
+  text-decoration: none;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.logo-link:hover {
+  opacity: 0.9;
 }
 
 /* ========== NAVBAR ========== */
@@ -205,13 +230,13 @@ body.dark {
   justify-content: space-between;
   align-items: center;
   padding: 20px 60px;
-  background: #fff;
+  background: #111;
   position: sticky;
   top: 0;
   z-index: 1000;
 }
 
-body.dark .navbar { background: #0b0b0b; }
+
 
 .menu {
   display: flex;
@@ -227,18 +252,28 @@ body.dark .navbar { background: #0b0b0b; }
   top: 50px;
   left: 0;
   width: 400px;
-  background: #fff;
+  background: #111;
   padding: 30px;
-  box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+  box-shadow: 0 20px 40px rgba(0,0,0,0.3);
+  animation: fadeIn 0.2s ease;
 }
 
 .mega.open .mega-menu {
   display: block;
 }
 
-body.dark .mega-menu { background: #111; }
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(6px); }
+  to { opacity: 1; transform: translateY(0); }
+}
 
-body.dark .mega-menu { background: #111; }
+.mega.open .mega-menu {
+  display: block;
+}
+
+
+
+
 
 /* hover removed – controlled via JS */
 
@@ -251,45 +286,27 @@ body.dark .mega-menu { background: #111; }
   display: flex;
   align-items: center;
   padding: 0 80px;
-  background: linear-gradient(120deg, #ffffff 0%, #f4f7fb 40%, #e9eef5 100%);
+  background: radial-gradient(circle at top right, rgba(0,255,170,0.12), transparent 40%),
+              linear-gradient(120deg, #0b0b0b 0%, #121212 40%, #1a1a1a 100%);
   position: relative;
+  overflow: hidden;
 }
 
-body.dark .hero {
-  background: linear-gradient(120deg, #0b0b0b 0%, #121212 40%, #1a1a1a 100%);
-}
+
+
+
 
 .hero-content { max-width: 600px; z-index: 2; }
 
-.hero::after {
-  content: "";
-  position: absolute;
-  inset: 0;
-  background-image: repeating-linear-gradient(
-    90deg,
-    rgba(0,0,0,0.04) 0,
-    rgba(0,0,0,0.04) 1px,
-    transparent 1px,
-    transparent 20px
-  );
-  pointer-events: none;
-}
 
-body.dark .hero::after {
-  background-image: repeating-linear-gradient(
-    90deg,
-    rgba(255,255,255,0.06) 0,
-    rgba(255,255,255,0.06) 1px,
-    transparent 1px,
-    transparent 18px
-  );
-}
+
+
 .hero h1 { font-size: 48px; }
 
 /* ========== CAPABILITIES ========== */
 .capabilities {
   padding: 100px 80px;
-  background: linear-gradient(180deg, rgba(0,0,0,0.03), rgba(0,0,0,0));
+  background: linear-gradient(180deg, rgba(255,255,255,0.05), rgba(0,0,0,0));
 }
 
 .cap-grid {
@@ -299,15 +316,20 @@ body.dark .hero::after {
 }
 
 .cap {
-  background: #fff;
+  background: #111;
   padding: 30px;
   border-radius: 18px;
   box-shadow: 0 10px 30px rgba(0,0,0,0.08);
+  transition: transform 0.35s ease, box-shadow 0.35s ease;
+  transform-style: preserve-3d;
 }
 
-body.dark .cap {
-  background: #111;
+.cap:hover {
+  transform: translateY(-12px) scale(1.02);
+  box-shadow: 0 25px 60px rgba(0,0,0,0.18);
 }
+
+
 
 .cap h3 { margin-top: 10px; }
 
@@ -321,12 +343,18 @@ body.dark .cap {
 }
 
 .card {
-  background: rgba(0,0,0,0.03);
+  background: rgba(255,255,255,0.05);
   padding: 25px;
   border-radius: 14px;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
-body.dark .card { background: rgba(255,255,255,0.08); }
+.card:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 18px 40px rgba(0,0,0,0.15);
+}
+
+
 
 /* ========== FOOTER ========== */
 .footer {
@@ -338,8 +366,8 @@ body.dark .card { background: rgba(255,255,255,0.08); }
 
 .footer img {
   width: 28px;
-  filter: invert(0);
+  filter: invert(1);
 }
 
-body.dark .footer img { filter: invert(1); }
+
 </style>
